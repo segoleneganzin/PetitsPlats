@@ -1,0 +1,9 @@
+/// Events wrapper
+@mixin on-event() {
+  &:hover,
+  &:active,
+  &:focus,
+  &:focus-within {
+    @content;
+  }
+}
