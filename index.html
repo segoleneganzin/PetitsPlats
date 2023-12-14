@@ -83,6 +83,7 @@
                 placeholder="Rechercher une recette, un ingrédient, ..." aria-labelledby="hero-title">
             <button type="submit" class="hero__search-bar-submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="29" viewBox="0 0 28 29" fill="none">
+                    <title>Rechercher</title>
                     <circle cx="10" cy="10.4219" r="9.5" stroke="white" />
                     <line x1="18.3536" y1="19.0683" x2="27.3536" y2="28.0683" stroke="white" />
                 </svg>
@@ -94,13 +95,10 @@
         <div class="filters flex-row">
             <!-- label doesn't appear in screen, it just permitted accessibility -->
             <div class="filters__container flex-row">
-                <p id='filter' class='visually-hidden'>
-                    Filtrer par
-                </p>
                 <!-- Ingredients filter -->
                 <div class="filter__container">
                     <button type="button" class="filter__button flex-row" aria-expanded="false"
-                        aria-controls="ingredients-list" aria-labelledby="filter" aria-haspopup="listbox">
+                        aria-controls="ingredients-list" aria-label="filtrer par ingrédients" aria-haspopup="listbox">
                         Ingrédients
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="8" viewBox="0 0 15 8" fill="none">
                             <title>Ouvrir le filtre des ingrédients</title>
@@ -135,7 +133,7 @@
                 <!-- Equipments filter -->
                 <div class="filter__container">
                     <button type="button" class="filter__button flex-row" aria-expanded="false"
-                        aria-controls="equipments-list" aria-labelledby="filter" aria-haspopup="listbox">
+                        aria-controls="equipments-list" aria-label="filtrer par appareils" aria-haspopup="listbox">
                         Appareils
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="8" viewBox="0 0 15 8" fill="none">
                             <title>Ouvrir le filtre des appareils</title>
@@ -170,10 +168,10 @@
                 <!-- Cookware filter -->
                 <div class="filter__container">
                     <button type="button" class="filter__button flex-row" aria-expanded="false"
-                        aria-controls="cookwares-list" aria-labelledby="filter" aria-haspopup="listbox">
+                        aria-controls="cookwares-list" aria-label="filtrer par ustensiles" aria-haspopup="listbox">
                         Ustensiles
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="8" viewBox="0 0 15 8" fill="none">
-                            <title>Ouvrir le filtre des ingrédients</title>
+                            <title>Ouvrir le filtre des ustensiles</title>
                             <path d="M1 1L7.5 7L14 1" stroke="#1B1B1B" stroke-linecap="round" />
                         </svg>
                     </button>
@@ -212,7 +210,7 @@
             <!-- all recipes cards are display via js -->
             <!-- card test -->
             <article class="recipe-card flex-col">
-                <img src="assets/photos/Recette01.jpg" alt="limonade de coco">
+                <img src="assets/photos/Recette01.jpg" alt="limonade de coco" height="253px" width="380px">
                 <div class="recipe-card__duration">10min</div>
                 <div class="recipe-card__content flex-col">
                     <h2 class="recipe-card__title">Limonade de coco</h2>
@@ -242,7 +240,7 @@
                 </div>
             </article>
             <article class="recipe-card flex-col">
-                <img src="assets/photos/Recette01.jpg" alt="limonade de coco">
+                <img src="assets/photos/Recette01.jpg" alt="limonade de coco" height="253px" width="380px">
                 <div class="recipe-card__content flex-col">
                     <h2 class="recipe-card__title">Limonade de coco</h2>
                     <section class="recipe-card__content-section flex-col">
@@ -271,7 +269,7 @@
                 </div>
             </article>
             <article class="recipe-card flex-col">
-                <img src="assets/photos/Recette01.jpg" alt="limonade de coco">
+                <img src="assets/photos/Recette01.jpg" alt="limonade de coco" height="253px" width="380px">
                 <div class="recipe-card__content flex-col">
                     <h2 class="recipe-card__title">Limonade de coco</h2>
                     <section class="recipe-card__content-section flex-col">
@@ -300,7 +298,7 @@
                 </div>
             </article>
             <article class="recipe-card flex-col">
-                <img src="assets/photos/Recette01.jpg" alt="limonade de coco">
+                <img src="assets/photos/Recette01.jpg" alt="limonade de coco" height="253px" width="380px">
                 <div class="recipe-card__content flex-col">
                     <h2 class="recipe-card__title">Limonade de coco</h2>
                     <section class="recipe-card__content-section flex-col">
@@ -329,7 +327,7 @@
                 </div>
             </article>
             <article class="recipe-card flex-col">
-                <img src="assets/photos/Recette01.jpg" alt="limonade de coco">
+                <img src="assets/photos/Recette01.jpg" alt="limonade de coco" height="253px" width="380px">
                 <div class="recipe-card__content flex-col">
                     <h2 class="recipe-card__title">Limonade de coco</h2>
                     <section class="recipe-card__content-section flex-col">
@@ -358,7 +356,7 @@
                 </div>
             </article>
             <article class="recipe-card flex-col">
-                <img src="assets/photos/Recette01.jpg" alt="limonade de coco">
+                <img src="assets/photos/Recette01.jpg" alt="limonade de coco" height="253px" width="380px">
                 <div class="recipe-card__content flex-col">
                     <h2 class="recipe-card__title">Limonade de coco</h2>
                     <section class="recipe-card__content-section flex-col">

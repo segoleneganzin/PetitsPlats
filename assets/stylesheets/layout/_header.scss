@@ -1,6 +1,6 @@
 /***************************** HERO HEADER *****************************/
 .hero {
-  background-image: url('../photos/lampos-aritonang-24gR_9lCdes-unsplash 1.png');
+  background-image: url('../photos/lampos-aritonang-24gR_9lCdes-unsplash-1.webp');
   background-repeat: no-repeat;
   height: 667px;
   &__logo {
@@ -14,7 +14,8 @@
     &-container {
       background-color: $bg-second-color;
       border-radius: 11px;
-      margin: 30px 243px;
+      margin: 30px auto;
+      width: 66%;
       overflow: hidden;
       input {
         width: 95%;
@@ -24,10 +25,55 @@
     &-bar-submit {
       background-color: $black;
       border-radius: 10px;
+      cursor: pointer;
       height: 52px;
       margin: 10px;
       padding: 12px;
+      position: relative;
       width: 51px;
+      z-index: 1;
+      &::after {
+        content: '';
+        border-radius: 10px;
+        background-color: $yellow;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: opacity 250ms;
+        z-index: -1;
+      }
+      &:hover {
+        &::after {
+          opacity: 1;
+        }
+        circle,
+        line {
+          stroke: $black;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1120px) {
+  .hero {
+    height: 400px;
+    &__logo {
+      padding: 40px;
+    }
+    &__title {
+      margin: 10px 0;
+    }
+  }
+}
+@media screen and (max-width: 560px) {
+  .hero {
+    &__search {
+      &-container {
+        width: 90%;
+      }
     }
   }
 }

@@ -1,0 +1,56 @@
+.filter {
+  &__container {
+    background-color: $bg-second-color;
+    border-radius: 11px;
+    position: relative;
+  }
+  &__arrow {
+    transform: rotate(0.5turn);
+  }
+  &__button {
+    align-items: center;
+    cursor: pointer;
+    gap: 63px;
+    justify-content: space-between;
+    padding: 17px 16px;
+  }
+  &__list {
+    background-color: $bg-second-color;
+    border-radius: 0 0 11px 11px;
+    display: none;
+    gap: 13px;
+    margin-top: -8px;
+    padding: 0 16px 15px;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    .filter__input-container {
+      align-items: center;
+      border: 0.5px solid $lightGrey;
+      margin: 9px 0;
+      padding-right: 5px;
+      input {
+        height: 35px;
+        padding-left: 10px;
+        width: 75%;
+      }
+      .cross-svg {
+        width: 20px;
+        button {
+          display: none;
+          &--typing {
+            display: block;
+          }
+        }
+      }
+    }
+    &--open {
+      display: flex;
+      z-index: 1;
+    }
+  }
+  &__magnifier-svg {
+    position: relative;
+    padding-bottom: 5px;
+  }
+}

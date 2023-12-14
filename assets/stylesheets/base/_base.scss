@@ -22,13 +22,14 @@ main {
   padding: 17px 102px 201px;
 }
 
-// /**
-//  * Basic styles for links
-//  */
-// a {
-//   text-decoration: none;
+@media screen and (max-width: 500px) {
+  main {
+    padding: 17px 50px 100px;
+  }
+}
 
-//   @include on-event {
-//     text-decoration: underline;
-//   }
-// }
+@media screen and (max-width: 400px) {
+  main {
+    padding: 17px 20px 100px;
+  }
+}
