@@ -7,7 +7,7 @@
 import { ApiRecipes } from '../models/api/ApiRecipes.js';
 import { Recipe } from '../models/metier/Recipe.js';
 import { displayFilter } from '../vues/FiltersVue.js';
-import { manageFilters, manageFilterList } from '../utils/Filters.js';
+import { manageFilters } from '../utils/Filters.js';
 import { displayRecipeCard } from '../vues/recipeCardVue.js';
 
 /**

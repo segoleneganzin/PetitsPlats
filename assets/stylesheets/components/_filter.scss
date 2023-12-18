@@ -4,9 +4,6 @@
     border-radius: 11px;
     position: relative;
   }
-  &__arrow {
-    transform: rotate(0.5turn);
-  }
   &__button {
     align-items: center;
     cursor: pointer;
@@ -14,21 +11,20 @@
     justify-content: space-between;
     padding: 17px 16px;
   }
-  &__list {
-    // TODO animation a l'ouverture/fermeture
+
+  &__list-container {
     background-color: $bg-second-color;
     border-radius: 0 0 11px 11px;
     display: none;
-    gap: 13px;
     margin-top: -8px;
-    padding: 0 16px 15px;
     position: absolute;
-    width: 100%;
     z-index: 2;
     .filter__input-container {
       align-items: center;
       border: 0.5px solid $lightGrey;
-      margin: 9px 0;
+      border-radius: 2px;
+      margin: 5px 16px 24px;
+      position: relative;
       padding-right: 5px;
       input {
         height: 35px;
@@ -39,6 +35,7 @@
         width: 20px;
         button {
           display: none;
+          // TODO manage cross on typing
           &--typing {
             display: block;
           }
@@ -46,12 +43,70 @@
       }
     }
     &--open {
+      animation: openList forwards 300ms;
       display: flex;
+      transform-origin: top;
       z-index: 1;
     }
   }
+  &__list-items {
+    // TODO animation a l'ouverture/fermeture + fleche
+    gap: 13px;
+    max-height: 200px;
+    overflow: auto;
+    padding: 0 16px 15px;
+    width: 100%;
+  }
   &__magnifier-svg {
-    position: relative;
     padding-bottom: 5px;
+    position: relative;
+  }
+  &--open {
+    .filter__arrow {
+      animation: arrowChange forwards 0.2s;
+    }
+  }
+}
+
+.selected-filters {
+  &__list {
+    li {
+      background-color: $yellow;
+      border-radius: 10px;
+      gap: 60px;
+      padding: 17px 18px;
+    }
+  }
+}
+
+@keyframes arrowChange {
+  0% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0;
+    transform: rotate(0deg);
+  }
+  50% {
+    opacity: 0;
+    transform: rotate(180deg);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes openList {
+  from {
+    transform: scale(1, 0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1, 1);
+    opacity: 1;
   }
 }
