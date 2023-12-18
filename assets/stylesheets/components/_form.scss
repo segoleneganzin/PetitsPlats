@@ -1,7 +1,19 @@
 /***************************** FORM *****************************/
-input {
+.input {
   border: none;
   @include on-event {
     outline: none;
+  }
+  &-container {
+    .cross-svg {
+      width: 20px;
+      .empty-input-button {
+        cursor: pointer;
+        display: none;
+        &--typing {
+          display: block;
+        }
+      }
+    }
   }
 }

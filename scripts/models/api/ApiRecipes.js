@@ -20,20 +20,7 @@ const ApiRecipes = () => {
   };
 
   const getAllIngredients = () => {
-    const ingredientsList = [
-      'ingrédient1',
-      'ingrédient2',
-      'ingrédient3',
-      'ingrédient1',
-      'ingrédient2',
-      'ingrédient3',
-      'ingrédient1',
-      'ingrédient2',
-      'ingrédient3',
-      'ingrédient1',
-      'ingrédient2',
-      'ingrédient3',
-    ];
+    const ingredientsList = ['ingrédient1', 'ingrédient2', 'ingrédient3'];
     return ingredientsList;
   };
   const getAllAppliances = () => {

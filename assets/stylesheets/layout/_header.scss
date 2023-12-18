@@ -17,9 +17,14 @@
       margin: 30px auto;
       width: 66%;
       overflow: hidden;
-      input {
+      .input {
         width: 95%;
         padding-left: 35px;
+      }
+      .cross-svg {
+        align-self: center;
+        margin-right: 17px;
+        width: fit-content;
       }
     }
     &-bar-submit {

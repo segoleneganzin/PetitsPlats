@@ -38,12 +38,12 @@ const displayFilter = (filterName, filterNumber) => {
           <path d="M1 1L7.5 7L14 1" stroke="#1B1B1B" stroke-linecap="round" />
       </svg>
     </button>
-    <div class="filter__list-container flex-col" id="${filterName}-list" >
+    <div class="filter__list-container flex-col" id="${filterName}-list">
       <!-- input filter search -->
-      <div class="filter__input-container flex-row" >
-          <input id="filter-search-${filterName}" type="search">
+      <div class="filter__input-container input-container flex-row" >
+          <input id="filter-search-${filterName}" class="input" type="search">
           <div class='cross-svg'>
-              <button onClick={filterEmpty}>
+              <button id="empty-filter-${filterName}" class="empty-input-button">
                   <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='#7a7a7a'
                       viewBox='0 0 16 16'>
                       <title>Vider le filtre</title>

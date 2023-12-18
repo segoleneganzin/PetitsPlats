@@ -37,6 +37,14 @@ input {
   padding: 0;
 }
 
+/* remove chrome cross on typing*/
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-results-button,
+input[type=search]::-webkit-search-results-decoration {
+  display: none;
+}
+
 /***************************** BASE *****************************/
 /**
  * Set up a decent box model on the root element
@@ -194,9 +202,15 @@ main {
   width: 66%;
   overflow: hidden;
 }
-.hero__search-container input {
+.hero__search-container .input {
   width: 95%;
   padding-left: 35px;
+}
+.hero__search-container .cross-svg {
+  align-self: center;
+  margin-right: 17px;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .hero__search-bar-submit {
   background-color: #1b1b1b;
@@ -298,11 +312,21 @@ main {
   }
 }
 /***************************** FORM *****************************/
-input {
+.input {
   border: none;
 }
-input:hover, input:active, input:focus, input:focus-within {
+.input:hover, .input:active, .input:focus, .input:focus-within {
   outline: none;
+}
+.input-container .cross-svg {
+  width: 20px;
+}
+.input-container .cross-svg .empty-input-button {
+  cursor: pointer;
+  display: none;
+}
+.input-container .cross-svg .empty-input-button--typing {
+  display: block;
 }
 
 .filter__container {
@@ -329,23 +353,16 @@ input:hover, input:active, input:focus, input:focus-within {
   align-items: center;
   border: 0.5px solid #c6c6c6;
   border-radius: 2px;
+  height: -moz-fit-content;
+  height: fit-content;
   margin: 5px 16px 24px;
   position: relative;
   padding-right: 5px;
 }
-.filter__list-container .filter__input-container input {
+.filter__list-container .filter__input-container .input {
   height: 35px;
   padding-left: 10px;
   width: 75%;
-}
-.filter__list-container .filter__input-container .cross-svg {
-  width: 20px;
-}
-.filter__list-container .filter__input-container .cross-svg button {
-  display: none;
-}
-.filter__list-container .filter__input-container .cross-svg button--typing {
-  display: block;
 }
 .filter__list-container--open {
   animation: openList forwards 300ms;

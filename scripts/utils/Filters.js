@@ -9,6 +9,7 @@ import { ApiRecipes } from '../models/api/ApiRecipes.js';
  */
 
 const manageFilters = () => {
+  const heroFilterInput = document.getElementById('hero-search');
   const selectedFiltersContainer = document.getElementById('selected-filters');
   const selectedFiltersList = document.querySelector('.selected-filters__list');
   let numberFiltersSelected = 0;
@@ -46,8 +47,6 @@ const manageFilters = () => {
    * manage open/close filter list
    * @param {html} listButton
    * @param {html} listDOM
-   * @param {array} datas
-   * @param {string} filterName
    */
   const toggleFilter = (listButton, listDOM) => {
     const ariaExpandedAttribute = listButton.getAttribute('aria-expanded');
@@ -83,18 +82,33 @@ const manageFilters = () => {
       filterList.appendChild(listElement);
 
       filterButton.addEventListener('click', () => {
-        addFilter(listButton, listDOM, filterButton, filterItem, filterName);
+        addFilter(listButton, listDOM, filterItem);
       });
     });
   };
-
-  const addFilter = (
-    listButton,
-    listDOM,
-    filterButton,
-    filterItem,
-    filterName
-  ) => {
+  const manageFilterInput = (filterId, filterName) => {
+    const filterInput = document.getElementById(filterId);
+    const filterEmpty = document.getElementById(`empty-filter-${filterName}`);
+    filterInput.addEventListener('input', (event) => {
+      let inputText = event.target.value;
+      console.log(inputText);
+      filterEmpty.classList.add('empty-input-button--typing');
+      if (inputText.length === 0) {
+        filterEmpty.classList.remove('empty-input-button--typing');
+      }
+    });
+    filterEmpty.addEventListener('click', () => {
+      filterInput.value = '';
+      filterEmpty.classList.remove('empty-input-button--typing');
+    });
+  };
+  /**
+   *
+   * @param {html} listButton
+   * @param {html} listDOM
+   * @param {string} filterItem
+   */
+  const addFilter = (listButton, listDOM, filterItem) => {
     if (selectedFiltersContainer.className === 'selected-filters') {
       selectedFiltersContainer.className = 'selected-filters--activate';
     }
@@ -123,7 +137,7 @@ const manageFilters = () => {
         />
       </svg>`;
     filterCloseButton.addEventListener('click', () => {
-      removeFilter(listButton, listDOM, filterButton, filterItem, filterName);
+      removeFilter(listButton, listDOM, filterItem);
     });
 
     selectedFilter.appendChild(filter);
@@ -135,13 +149,14 @@ const manageFilters = () => {
     // TODO display corresponded recipes (import function with vue)
     // TODO delete filter already selected into list
   };
-  const removeFilter = (
-    listButton,
-    listDOM,
-    filterButton,
-    filterItem,
-    filterName
-  ) => {
+
+  /**
+   *
+   * @param {html} listButton
+   * @param {html} listDOM
+   * @param {string} filterItem
+   */
+  const removeFilter = (listButton, listDOM, filterItem) => {
     numberFiltersSelected -= 1;
     const filterItemSelectedDOM = document.getElementById(
       `${filterItem}-selected`
@@ -153,10 +168,13 @@ const manageFilters = () => {
     toggleFilter(listButton, listDOM);
   };
 
+  manageFilterInput('hero-search', 'hero-search');
+
   filters.forEach((filter) => {
     manageFilterList(filter.button, filter.list, filter.datas, filter.name);
     filter.button.addEventListener('click', () => {
       toggleFilter(filter.button, filter.list);
+      manageFilterInput(`filter-search-${filter.name}`, filter.name);
     });
   });
 };

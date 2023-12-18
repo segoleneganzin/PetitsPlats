@@ -23,23 +23,14 @@
       align-items: center;
       border: 0.5px solid $lightGrey;
       border-radius: 2px;
+      height: fit-content;
       margin: 5px 16px 24px;
       position: relative;
       padding-right: 5px;
-      input {
+      .input {
         height: 35px;
         padding-left: 10px;
         width: 75%;
-      }
-      .cross-svg {
-        width: 20px;
-        button {
-          display: none;
-          // TODO manage cross on typing
-          &--typing {
-            display: block;
-          }
-        }
       }
     }
     &--open {
