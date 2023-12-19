@@ -26,6 +26,10 @@
       gap: 15px;
     }
   }
+  &__instruction {
+    max-height: 76px;
+    overflow: hidden;
+  }
   &__ingredients-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

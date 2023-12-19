@@ -271,14 +271,14 @@ main {
   align-self: center;
 }
 
-.selected-filters {
+.tags {
   height: 55px;
 }
-.selected-filters--activate {
+.tags--activate {
   height: auto;
   padding: 21px 0 43px;
 }
-.selected-filters__list {
+.tags__list {
   gap: 15px;
 }
 
@@ -385,7 +385,7 @@ main {
   animation: arrowChange forwards 0.2s;
 }
 
-.selected-filters__list li {
+.tags__list li {
   background-color: #ffd15b;
   border-radius: 10px;
   gap: 60px;
@@ -451,6 +451,10 @@ main {
 }
 .recipe-card__content-section {
   gap: 15px;
+}
+.recipe-card__instruction {
+  max-height: 76px;
+  overflow: hidden;
 }
 .recipe-card__ingredients-list {
   display: grid;

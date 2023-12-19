@@ -25,7 +25,7 @@ const displayRecipeCard = (recipe) => {
     )
     .join('');
   const recipeCard = `
-    <img src=${src} alt=${recipe.name} height="253px" width="380px">
+    <img src=${src} alt="${recipe.name}" height="253" width="380">
     <div class="recipe-card__duration">${recipe.time}min</div>
     <div class="recipe-card__content flex-col">
         <h2 class="recipe-card__title">${recipe.name}</h2>

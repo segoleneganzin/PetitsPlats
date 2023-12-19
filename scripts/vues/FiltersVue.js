@@ -8,7 +8,7 @@
  * @param {string} filterName
  * @returns {html}
  */
-const displayFilter = (filterName, filterNumber) => {
+const displayFilter = (filterName) => {
   // manage text to display into button for users
   let filterNameFormatted;
   switch (filterName) {
@@ -30,8 +30,8 @@ const displayFilter = (filterName, filterNumber) => {
   filterContainer.className = 'filter__container';
 
   const filter = `
-    <button type="button" class="filter__button flex-row" id="filter-${filterName}" aria-expanded="false"
-          aria-controls="${filterName}-list" aria-label="filtrer par ${filterNameFormatted}" aria-haspopup="listbox">
+    <button type="button" name="${filterNameFormatted}" class="filter__button flex-row" id="filter-${filterName}" aria-expanded="false"
+          aria-controls="${filterName}-list" aria-label="${filterNameFormatted} à filtrer" aria-haspopup="listbox">
       ${filterNameFormatted}
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="8" viewBox="0 0 15 8" fill="none" class="filter__arrow">
           <title>Ouvrir le filtre des ${filterNameFormatted}</title>
@@ -41,6 +41,7 @@ const displayFilter = (filterName, filterNumber) => {
     <div class="filter__list-container flex-col" id="${filterName}-list">
       <!-- input filter search -->
       <div class="filter__input-container input-container flex-row" >
+        <label for="filter-search-${filterName}" class="visually-hidden">Rechercher par ${filterName}</label>
           <input id="filter-search-${filterName}" class="input" type="search">
           <div class='cross-svg'>
               <button id="empty-filter-${filterName}" class="empty-input-button">

@@ -8,7 +8,7 @@ import { ApiRecipes } from '../models/api/ApiRecipes.js';
 import { Recipe } from '../models/metier/Recipe.js';
 import { displayFilter } from '../vues/FiltersVue.js';
 import { manageFilters } from '../utils/Filters.js';
-import { displayRecipeCard } from '../vues/recipeCardVue.js';
+import { displayRecipeCard } from '../vues/RecipeCardVue.js';
 
 /**
  * Executed when page is loaded
@@ -40,6 +40,7 @@ const displayFilters = () => {
     const filterDOM = displayFilter(filter);
     filtersContainer.appendChild(filterDOM);
   });
+  manageFilters();
 };
 
 /**
@@ -50,6 +51,5 @@ const init = () => {
   const datasRecipes = ApiRecipes();
   const { recipes } = datasRecipes.getRecipes();
   displayFilters();
-  manageFilters();
   displayRecipes(recipes);
 };

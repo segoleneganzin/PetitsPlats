@@ -77,10 +77,10 @@
         <h1 class="hero__title" id="hero-title">Cherchez parmi plus de 1500 recettes du quotidien, simples et
             délicieuses</h1>
         <!-- search bar -->
-        <!-- label doesn't appear in screen, it just permitted accessibility -->
         <div class="hero__search-container input-container flex-row">
+            <label for="hero-search" class="visually-hidden">Rechercher une recette</label>
             <input type="text" id="hero-search" name="hero-search" class="input"
-                placeholder="Rechercher une recette, un ingrédient, ..." aria-labelledby="hero-title">
+                placeholder="Rechercher une recette, un ingrédient, ...">
             <div class='cross-svg'>
                 <button id="empty-filter-hero-search" class="empty-input-button">
                     <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' fill='#7a7a7a' viewBox='0 0 16 16'>
@@ -101,7 +101,7 @@
     </header>
     <main class="flex-col">
         <!-- ************************* FILTERS ************************* -->
-        <div class="filters flex-row">
+        <div class="filters flex-row" role="region" aria-label="Filtres">
             <!-- label doesn't appear in screen, it just permitted accessibility -->
             <div class="filters__container flex-row">
                 <!-- all filters button display via js -->
@@ -110,12 +110,12 @@
                 <!-- display via js --> 1500 recettes
             </div>
         </div>
-        <div id="selected-filters" class="selected-filters">
-            <ul class="selected-filters__list flex-row">
+        <div id="tags" class="tags">
+            <ul class="tags__list flex-row" aria-label="Filtres selectionnés">
             </ul>
         </div>
         <!-- ************************* RECIPES CARDS ************************* -->
-        <div class="recipes">
+        <div class="recipes" role="region" aria-label="Recettes">
             <!-- all recipes cards are display via js -->
         </div>
     </main>
