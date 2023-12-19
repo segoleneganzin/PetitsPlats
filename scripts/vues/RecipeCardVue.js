@@ -19,7 +19,7 @@ const displayRecipeCard = (recipe) => {
       (ingredient) => `    <li class="flex-col">
     <span class="recipe-card__ingredient">${ingredient.ingredient}</span>
     <span class="recipe-card__ingredient-quantity">${
-      ingredient.unit ? ingredient.quantity : ''
+      ingredient.quantity ? ingredient.quantity : ''
     } ${ingredient.unit ? ingredient.unit : ''}</span>
 </li>`
     )

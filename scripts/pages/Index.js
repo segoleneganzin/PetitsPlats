@@ -5,6 +5,7 @@
 /*********************************************************************************/
 
 import { ApiRecipes } from '../models/api/ApiRecipes.js';
+import { filtersQueries } from '../utils/FiltersQueries.js';
 import { Recipe } from '../models/metier/Recipe.js';
 import { displayFilter } from '../vues/FiltersVue.js';
 import { manageFilters } from '../utils/Filters.js';
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
  */
 const displayRecipes = (recipes) => {
   const recipesContainer = document.querySelector('.recipes');
+  recipesContainer.innerHTML = '';
   recipes.forEach((recipe) => {
     recipe = Recipe(recipe);
     const cardDOM = displayRecipeCard(recipe);
@@ -33,14 +35,14 @@ const displayRecipes = (recipes) => {
 /**
  * display all filters in DOM
  */
-const displayFilters = () => {
+const displayFilters = (recipes) => {
   const filtersContainer = document.querySelector('.filters__container');
   const filters = ['ingredients', 'appliances', 'ustensils'];
   filters.forEach((filter) => {
     const filterDOM = displayFilter(filter);
     filtersContainer.appendChild(filterDOM);
   });
-  manageFilters();
+  manageFilters(recipes);
 };
 
 /**
@@ -50,6 +52,8 @@ const displayFilters = () => {
 const init = () => {
   const datasRecipes = ApiRecipes();
   const { recipes } = datasRecipes.getRecipes();
-  displayFilters();
+  displayFilters(recipes);
   displayRecipes(recipes);
 };
+
+export { displayRecipes };
