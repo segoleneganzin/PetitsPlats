@@ -1,23 +1,41 @@
-// list to filter
-// filter by ...
-import { displayRecipes } from '../pages/Index.js';
-
 const filtersQueries = (recipes, filterValue, filterBy) => {
-  // console.log(filterBy[0]);
-  // TODO manage accent
-  // mange letter lower case
+  // mange letter lower case for avoid break case
   const filterValueLowerCase = filterValue.toLowerCase();
-  // console.log(filterValueLowerCase);
+  // copy list to avoid side effect
   let recipesList = [...recipes];
   const filteredRecipes = [];
-  for (let i = 0; i < filterBy.length; i++) {
-    // if filterBy = array (ex: ingredients.ingredient)
-    for (let j = 0; j < recipesList.length; j++) {
-      if (
-        recipesList[j][filterBy[i]].toLowerCase().includes(filterValueLowerCase)
-      ) {
-        filteredRecipes.push(recipesList[j]);
+  for (let i = 0; i < recipesList.length; i++) {
+    //
+    let j = 0;
+    while (j < filterBy.length) {
+      if (filterBy[j] === 'ingredients') {
+        const ingredientsList = recipesList[i][filterBy[j]];
+        let k = 0;
+        while (k < ingredientsList.length) {
+          if (
+            ingredientsList[k].ingredient
+              .toLowerCase()
+              .includes(filterValueLowerCase)
+          ) {
+            filteredRecipes.push(recipesList[i]);
+            // as soon as the search item is found in a recipe, we move on to the next one
+            j = filterBy.length;
+            k = ingredientsList.length;
+          }
+          k++;
+        }
+      } else {
+        if (
+          recipesList[i][filterBy[j]]
+            .toLowerCase()
+            .includes(filterValueLowerCase)
+        ) {
+          filteredRecipes.push(recipesList[i]);
+          // as soon as the search item is found in a recipe, we move on to the next one
+          j = filterBy.length;
+        }
       }
+      j++;
     }
   }
   return filteredRecipes;

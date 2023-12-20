@@ -126,7 +126,11 @@ const manageFilters = (recipes) => {
       }
       // TODO filtered here
       if (inputText.length >= 3) {
-        const testFilter = filtersQueries(recipes, inputText, ['name']);
+        const testFilter = filtersQueries(recipes, inputText, [
+          'name',
+          'ingredients',
+          'description',
+        ]);
         displayRecipes(testFilter);
       }
     });
