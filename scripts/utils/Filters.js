@@ -6,9 +6,9 @@
 import { displayRecipes } from '../pages/Index.js';
 import {
   filtersQueries,
-  getAllAppliances,
-  getAllIngredients,
-  getAllUstensils,
+  getAppliances,
+  getIngredients,
+  getUstensils,
 } from './FiltersQueries.js';
 /**
  * manage click on button filter and what to display
@@ -22,10 +22,10 @@ const manageFilters = (recipes) => {
   const filterIngredientsList = document.getElementById('ingredients-list');
   const filterAppliancesList = document.getElementById('appliances-list');
   const filterUstensilsList = document.getElementById('ustensils-list');
-  let filterIngredientsDatas = getAllIngredients(recipes);
-  let filterAppliancesDatas = getAllAppliances(recipes);
-  let filterUstensilsDatas = getAllUstensils(recipes);
-  const filters = [
+  let filterIngredientsDatas = getIngredients(recipes);
+  let filterAppliancesDatas = getAppliances(recipes);
+  let filterUstensilsDatas = getUstensils(recipes);
+  let filters = [
     {
       name: 'ingredients',
       button: filterIngredientsButton,
@@ -45,9 +45,11 @@ const manageFilters = (recipes) => {
       datas: filterUstensilsDatas,
     },
   ];
+  let filteredRecipes;
   // tags (selected filters)
   const tagsContainer = document.getElementById('tags');
   const tagsList = document.querySelector('.tags__list');
+  const tagsListElement = [];
   let numberTags = 0;
 
   /**
@@ -86,9 +88,10 @@ const manageFilters = (recipes) => {
    * @param {array} filterDatas
    * @param {string} filterName
    */
-  const manageFilterList = (listButton, listDOM, filterDatas, filterName) => {
-    const filterList = document.getElementById(`${filterName}-list-items`);
-    filterDatas.forEach((tag) => {
+  const manageFilterList = (filter) => {
+    const filterList = document.getElementById(`${filter.name}-list-items`);
+    filterList.innerHTML = '';
+    filter.datas.forEach((tag) => {
       const listElement = document.createElement('li');
       const filterButton = document.createElement('button');
       filterButton.setAttribute('role', 'option');
@@ -99,8 +102,33 @@ const manageFilters = (recipes) => {
       filterList.appendChild(listElement);
 
       filterButton.addEventListener('click', () => {
-        addTag(listButton, listDOM, tag);
+        addTag(filter.button, filter.list, tag);
+        const filterName =
+          filter.name === 'appliances' ? 'appliance' : filter.name;
+        filteredRecipes === undefined
+          ? (filteredRecipes = filtersQueries(recipes, tag, [filterName]))
+          : (filteredRecipes = filtersQueries(filteredRecipes, tag, [
+              filterName,
+            ]));
+        displayRecipes(filteredRecipes);
       });
+    });
+  };
+
+  /**
+   * Manage datas to display into advanced filters
+   * when user typing
+   * @param {array} recipes
+   */
+  const updateFiltersDatas = (recipes) => {
+    const newFiltersDatas = [
+      getIngredients(recipes),
+      getAppliances(recipes),
+      getUstensils(recipes),
+    ];
+    filters.forEach((filter, index) => {
+      filter.datas = newFiltersDatas[index];
+      manageFilterList(filter);
     });
   };
 
@@ -109,10 +137,9 @@ const manageFilters = (recipes) => {
    * @param {string} filterId
    * @param {string} filterName
    */
-  const manageFilterInput = (filterId, filterName) => {
+  const manageSearchInput = (filterId, filterName) => {
     const filterInput = document.getElementById(filterId);
     const filterEmpty = document.getElementById(`empty-filter-${filterName}`);
-
     // typing event
     filterInput.addEventListener('input', (event) => {
       let inputText = event.target.value;
@@ -124,22 +151,73 @@ const manageFilters = (recipes) => {
       if (inputText.length < 3) {
         displayRecipes(recipes);
       }
-      // TODO filtered here
       if (inputText.length >= 3) {
-        const testFilter = filtersQueries(recipes, inputText, [
-          'name',
-          'ingredients',
-          'description',
-        ]);
-        displayRecipes(testFilter);
+        filteredRecipes = recipes;
+        const filterBy = ['name', 'ingredients', 'description'];
+        // removeAllTags();
+        filteredRecipes = filtersQueries(filteredRecipes, inputText, filterBy);
+        displayRecipes(filteredRecipes);
+        updateFiltersDatas(filteredRecipes);
       }
     });
 
     // empty input on cross click
     filterEmpty.addEventListener('click', () => {
       filterInput.value = '';
+      filteredRecipes = recipes;
       filterEmpty.classList.remove('empty-input-button--typing');
       displayRecipes(recipes);
+      // manage advanced filters
+      updateFiltersDatas(recipes);
+    });
+  };
+
+  const manageFilterInput = (filterId, filterName) => {
+    const filterInput = document.getElementById(filterId);
+    const filterEmpty = document.getElementById(`empty-filter-${filterName}`);
+    // typing event
+    filterInput.addEventListener('input', (event) => {
+      let inputText = event.target.value;
+      // console.log(inputText);
+      filterEmpty.classList.add('empty-input-button--typing');
+      if (inputText.length === 0) {
+        filterEmpty.classList.remove('empty-input-button--typing');
+      }
+      if (inputText.length < 3) {
+        // displayRecipes(recipes);
+        // TODO display filter list
+      }
+      if (inputText.length >= 3) {
+        switch (filterName) {
+          case 'ingredients':
+            // ingredients.datas = ...;
+            // manageFilterList(ingredients);
+            break;
+          case 'appliances':
+            // filter list of appliances (appliances.datas)
+            break;
+          case 'ustensils':
+            // TODO
+            // filter list of ustensils (ustensils.datas)
+            break;
+          default:
+            console.log('no datas to filtered');
+            break;
+        }
+        // filteredList = filtersQueries(filteredRecipes, inputText, filterBy);
+        // displayRecipes(filteredRecipes);
+        // updateFiltersDatas(filteredRecipes);
+      }
+    });
+
+    // empty input on cross click
+    filterEmpty.addEventListener('click', () => {
+      filterInput.value = '';
+      filteredRecipes = recipes;
+      filterEmpty.classList.remove('empty-input-button--typing');
+      displayRecipes(recipes);
+      // manage advanced filters
+      updateFiltersDatas(recipes);
     });
   };
 
@@ -177,6 +255,9 @@ const manageFilters = (recipes) => {
           stroke-linejoin='round'
         />
       </svg>`;
+    tagsListElement.push({
+      tagName: tagName,
+    });
     tagCloseButton.addEventListener('click', () => {
       removeTag(listButton, listDOM, tagName);
     });
@@ -187,9 +268,11 @@ const manageFilters = (recipes) => {
     tagsList.appendChild(tag);
 
     toggleFilter(listButton, listDOM);
-    // TODO display corresponded recipes (import function with vue)
-    // TODO delete filter already selected into list
   };
+
+  // const manageInputTag = () => {
+  //   console.log('coucou');
+  // };
 
   /**
    * Remove tag when user click on tag cross
@@ -203,20 +286,38 @@ const manageFilters = (recipes) => {
       `${tagName.split(' ').join('')}-selected`
     );
     tagNameSelectedDOM.remove();
+    // TODO queries
     if (numberTags === 0) {
       tagsContainer.className = 'tags';
+      // TODO display all recipes
+      filteredRecipes = recipes;
+      displayRecipes(recipes);
     }
     toggleFilter(listButton, listDOM);
   };
 
+  /**
+   * Remove all tags when user search recipe from principal search bar
+   * @param {array} tags
+   */
+  const removeAllTags = () => {
+    tagsListElement.forEach((tag) => {
+      const tagNameSelectedDOM = document.getElementById(
+        `${tag.tagName.split(' ').join('')}-selected`
+      );
+      tagNameSelectedDOM.remove();
+    });
+    tagsContainer.className = 'tags';
+  };
+
   // execute on function call into index.js
-  manageFilterInput('hero-search', 'hero-search');
+  manageSearchInput('hero-search', 'hero-search');
 
   filters.forEach((filter) => {
-    manageFilterList(filter.button, filter.list, filter.datas, filter.name);
+    manageFilterList(filter);
     filter.button.addEventListener('click', () => {
       toggleFilter(filter.button, filter.list);
-      manageFilterInput(`filter-search-${filter.name}`, filter.name);
+      manageSearchInput(`filter-search-${filter.name}`, filter.name);
     });
   });
 };
