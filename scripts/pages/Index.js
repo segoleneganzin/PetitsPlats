@@ -3,13 +3,12 @@
 * This file control home page
 *
 /*********************************************************************************/
-
 import { ApiRecipes } from '../models/api/ApiRecipes.js';
-import { filtersQueries } from '../utils/FiltersQueries.js';
 import { Recipe } from '../models/metier/Recipe.js';
 import { displayFilter } from '../vues/FiltersVue.js';
 import { manageFilters } from '../utils/Filters.js';
 import { displayRecipeCard } from '../vues/RecipeCardVue.js';
+import { manageSearchInput } from '../utils/SearchInput.js';
 
 /**
  * Executed when page is loaded
@@ -42,18 +41,18 @@ const displayFilters = (recipes) => {
     const filterDOM = displayFilter(filter);
     filtersContainer.appendChild(filterDOM);
   });
-  manageFilters(recipes);
+  manageFilters(recipes, recipes);
 };
 
 /**
  * Function called on loading, retrieves data from recipes database
- * @async
  */
 const init = () => {
   const datasRecipes = ApiRecipes();
   const { recipes } = datasRecipes.getRecipes();
   displayFilters(recipes);
   displayRecipes(recipes);
+  manageSearchInput(recipes, recipes);
 };
 
 export { displayRecipes };

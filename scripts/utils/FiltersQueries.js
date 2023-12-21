@@ -1,8 +1,6 @@
 const filtersQueries = (recipes, filterValue, filterBy) => {
   // mange letter lower case for avoid break case
   const filterValueLowerCase = filterValue.toLowerCase();
-  // copy list to avoid side effect
-  // let recipesList = recipes;
   const filteredRecipes = [];
   for (let i = 0; i < recipes.length; i++) {
     //
@@ -24,6 +22,18 @@ const filtersQueries = (recipes, filterValue, filterBy) => {
           }
           k++;
         }
+      } else if (filterBy[j] === 'ustensils') {
+        const ustensilsList = recipes[i][filterBy[j]];
+        let k = 0;
+        while (k < ustensilsList.length) {
+          if (ustensilsList[k].toLowerCase().includes(filterValueLowerCase)) {
+            filteredRecipes.push(recipes[i]);
+            // as soon as the search item is found in a recipe, we move on to the next one
+            j = filterBy.length;
+            k = ustensilsList.length;
+          }
+          k++;
+        }
       } else {
         if (
           recipes[i][filterBy[j]].toLowerCase().includes(filterValueLowerCase)
@@ -39,14 +49,17 @@ const filtersQueries = (recipes, filterValue, filterBy) => {
   return filteredRecipes;
 };
 
+const manageUpperFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const getIngredients = (recipesList) => {
+  // console.log(recipesList);
   let ingredientsList = [];
   recipesList.forEach((recipe) => {
     recipe.ingredients.forEach((ingredient) => {
       // manage sensitive case
-      const ingredientUpperCase =
-        ingredient.ingredient.charAt(0).toUpperCase() +
-        ingredient.ingredient.slice(1);
+      const ingredientUpperCase = manageUpperFirstLetter(ingredient.ingredient);
       // Check if the utensil is not already in the list
       if (!ingredientsList.includes(ingredientUpperCase)) {
         ingredientsList.push(ingredientUpperCase);
@@ -59,12 +72,12 @@ const getIngredients = (recipesList) => {
   });
   return ingredientsList;
 };
+
 const getAppliances = (recipesList) => {
   let appliancesList = [];
   recipesList.forEach((recipe) => {
     // manage sensitive case
-    const applianceUpperCase =
-      recipe.appliance.charAt(0).toUpperCase() + recipe.appliance.slice(1);
+    const applianceUpperCase = manageUpperFirstLetter(recipe.appliance);
     // Check if the appliance is not already in the list
     if (!appliancesList.includes(applianceUpperCase)) {
       appliancesList.push(applianceUpperCase);
@@ -76,13 +89,14 @@ const getAppliances = (recipesList) => {
   });
   return appliancesList;
 };
+
 const getUstensils = (recipesList) => {
   let ustensilsList = [];
   recipesList.forEach((recipe) => {
     recipe.ustensils.forEach((ustensil) => {
       // manage sensitive case
-      const ustensilUpperCase =
-        ustensil.charAt(0).toUpperCase() + ustensil.slice(1);
+      const ustensilUpperCase = manageUpperFirstLetter(ustensil);
+      ustensil.charAt(0).toUpperCase() + ustensil.slice(1);
       // Check if the utensil is not already in the list
       if (!ustensilsList.includes(ustensilUpperCase)) {
         ustensilsList.push(ustensilUpperCase);

@@ -19,18 +19,6 @@ const ApiRecipes = () => {
     return { recipes };
   };
 
-  // const getAllIngredients = () => {
-  //   const ingredientsList = ['ingrédient1', 'ingrédient2', 'ingrédient3'];
-  //   return ingredientsList;
-  // };
-  // const getAllAppliances = () => {
-  //   const appliancesList = ['appareil 1', 'appareil 2'];
-  //   return appliancesList;
-  // };
-  // const getAllUstensils = () => {
-  //   const ustensilsList = ['ustensile 1', 'ustensile 2'];
-  //   return ustensilsList;
-  // };
   return { getRecipes };
 };
 
