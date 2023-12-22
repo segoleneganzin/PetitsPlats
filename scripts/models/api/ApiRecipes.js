@@ -13,7 +13,7 @@ import { recipes } from '../../../assets/datas/recipes.js';
 const ApiRecipes = () => {
   /**
    * function to link the database for easier calling up
-   * @returns {array}
+   * @returns {Array}
    */
   const getRecipes = () => {
     return { recipes };

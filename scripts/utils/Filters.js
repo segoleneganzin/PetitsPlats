@@ -3,7 +3,7 @@
 * This file manage filters
 *
 /*********************************************************************************/
-import { displayRecipes } from '../pages/Index.js';
+import { displayRecipes, displayNumberTotalRecipes } from '../pages/Index.js';
 import { displayTag } from '../vues/TagVue.js';
 import {
   filtersQueries,
@@ -11,11 +11,15 @@ import {
   getIngredients,
   getUstensils,
 } from './FiltersQueries.js';
-/**
- * manage click on button filter and what to display
- */
 
-const manageFilters = (originalRecipesList, filteredRecipes) => {
+/**
+ * manage filters depends of recipes list (filtered or not)
+ * @param {Array} allRecipes
+ * @param {Array} filteredRecipes
+ * @returns {functions}
+ */
+const manageFilters = (allRecipes, filteredRecipes) => {
+  console.log('coucou');
   // filters by tags
   const filterIngredientsButton = document.getElementById('filter-ingredients');
   const filterAppliancesButton = document.getElementById('filter-appliances');
@@ -46,22 +50,23 @@ const manageFilters = (originalRecipesList, filteredRecipes) => {
       datas: filterUstensilsDatas,
     },
   ];
-  // let filteredRecipes;
   // tags (selected filters)
   const tagsContainer = document.getElementById('tags');
   const tagsList = document.querySelector('.tags__list');
-  const tagsListElement = [];
+  let tagsListElement = [];
   let numberTags = 0;
+  let filteredRecipesByTag = filteredRecipes;
 
   /**
-   * Manage datas to display into advanced filters
-   * when user typing
+   * Manage datas to display into filters
+   * when the user select tag
+   * @param {Array} recipesList
    */
-  const updateFiltersDatas = () => {
+  const updateFiltersDatas = (recipesList) => {
     const newFiltersDatas = [
-      getIngredients(filteredRecipes),
-      getAppliances(filteredRecipes),
-      getUstensils(filteredRecipes),
+      getIngredients(recipesList),
+      getAppliances(recipesList),
+      getUstensils(recipesList),
     ];
     filters.forEach((filter, index) => {
       filter.datas = newFiltersDatas[index];
@@ -70,15 +75,25 @@ const manageFilters = (originalRecipesList, filteredRecipes) => {
   };
 
   /**
+   * Update recipes view, number of total recipes found and filters datas
+   * @param {Array} recipesList
+   */
+  const updateDatas = (recipesList) => {
+    displayRecipes(recipesList);
+    displayNumberTotalRecipes(recipesList);
+    updateFiltersDatas(recipesList);
+  };
+
+  /**
    * manage open/close filter list
    * Close opened filter when another is open
    * @param {html} listButton
    * @param {html} listDOM
    */
-  const toggleFilter = (listButton, listDOM) => {
+  const toggleFilter = (filter) => {
     const allListButtons = document.querySelectorAll('.filter__button');
     const allListDOM = document.querySelectorAll('.filter__list-container');
-    const ariaExpandedAttribute = listButton.getAttribute('aria-expanded');
+    const ariaExpandedAttribute = filter.button.getAttribute('aria-expanded');
     if (ariaExpandedAttribute === 'false') {
       allListButtons.forEach((button) => {
         button.classList.remove('filter--open');
@@ -87,18 +102,19 @@ const manageFilters = (originalRecipesList, filteredRecipes) => {
       allListDOM.forEach((list) =>
         list.classList.remove('filter__list-container--open')
       );
-      listDOM.classList.add('filter__list-container--open');
-      listButton.classList.add('filter--open');
-      listButton.setAttribute('aria-expanded', true);
+      filter.list.classList.add('filter__list-container--open');
+      filter.button.classList.add('filter--open');
+      filter.button.setAttribute('aria-expanded', true);
+      manageFilterList(filter);
     } else {
-      listDOM.classList.remove('filter__list-container--open');
-      listButton.classList.remove('filter--open');
-      listButton.setAttribute('aria-expanded', false);
+      filter.list.classList.remove('filter__list-container--open');
+      filter.button.classList.remove('filter--open');
+      filter.button.setAttribute('aria-expanded', false);
     }
   };
 
   /**
-   * At open, all the datas of filter are display
+   * At open, all the datas of recipes filtered are display
    * @param {object} filter
    */
   const manageFilterList = (filter) => {
@@ -118,12 +134,6 @@ const manageFilters = (originalRecipesList, filteredRecipes) => {
         addTag(filter, tag);
       });
     });
-    filter.button.removeEventListener('click', () => {
-      toggleFilter(filter.button, filter.list);
-    });
-    filter.button.addEventListener('click', () => {
-      toggleFilter(filter.button, filter.list);
-    });
   };
 
   /**
@@ -132,6 +142,7 @@ const manageFilters = (originalRecipesList, filteredRecipes) => {
    * @param {string} tagName
    */
   const addTag = (filter, tagName) => {
+    // TODO avoid duplicated tags
     if (tagsContainer.className === 'tags') {
       tagsContainer.className = 'tags--activate';
     }
@@ -140,17 +151,18 @@ const manageFilters = (originalRecipesList, filteredRecipes) => {
     displayTag(tagName, tagsList, removeTag);
     tagsListElement.push({
       tagName: tagName,
+      filterName: filterName,
     });
-    toggleFilter(filter.button, filter.list);
-    // TODO manage if more than one tag (partage de liste)
-    const filteredRecipesByTag = filtersQueries(filteredRecipes, tagName, [
+    toggleFilter(filter);
+    filteredRecipesByTag = filtersQueries(filteredRecipesByTag, tagName, [
       filterName,
     ]);
-    displayRecipes(filteredRecipesByTag);
+    updateDatas(filteredRecipesByTag);
   };
 
   /**
    * Remove tag when user click on tag cross
+   * update filterRecipesByTag only with remaining tags
    * @param {string} tagName
    */
   const removeTag = (tagName) => {
@@ -159,16 +171,25 @@ const manageFilters = (originalRecipesList, filteredRecipes) => {
       `${tagName.split(' ').join('')}-selected`
     );
     tagNameSelectedDOM.remove();
-    // TODO queries
+    tagsListElement = tagsListElement.filter(
+      (item) => item.tagName !== tagName
+    );
+    filteredRecipesByTag = filteredRecipes;
+    tagsListElement.forEach((tag) => {
+      filteredRecipesByTag = filtersQueries(filteredRecipesByTag, tag.tagName, [
+        tag.filterName,
+      ]);
+    });
+    updateDatas(filteredRecipesByTag);
     if (numberTags === 0) {
       tagsContainer.className = 'tags';
-      displayRecipes(filteredRecipes);
+      filteredRecipesByTag = filteredRecipes;
+      updateDatas(filteredRecipes);
     }
   };
 
   /**
    * Remove all tags when user search recipe from principal search bar
-   * @param {array} tags
    */
   const removeAllTags = () => {
     if (tagsListElement.length > 0) {
@@ -181,23 +202,27 @@ const manageFilters = (originalRecipesList, filteredRecipes) => {
       tagsContainer.className = 'tags';
       // empty table
       tagsListElement.splice(0, tagsListElement.length);
-      displayRecipes(originalRecipesList);
+      updateDatas(allRecipes);
+      filteredRecipesByTag = filteredRecipes;
     }
   };
 
-  // execute into index.js
+  // execute when call into index.js
   filters.forEach((filter) => {
-    manageFilterList(filter);
+    filter.button.removeEventListener('click', () => {
+      toggleFilter(filter);
+    });
+    filter.button.addEventListener('click', () => {
+      toggleFilter(filter);
+    });
   });
   const filterInput = document.getElementById('hero-search');
-  const filterEmpty = document.getElementById(`empty-filter-hero-search`);
   filterInput.addEventListener('input', (event) => {
     let inputText = event.target.value;
     if (inputText.length === 1) {
       removeAllTags();
     }
   });
-  return { updateFiltersDatas, removeAllTags };
 };
 
 export { manageFilters };

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /**
  * Function that retrieves the div containing all the recipes and displays them
- * @param {array} recipes
+ * @param {Array} recipes
  */
 const displayRecipes = (recipes) => {
   const recipesContainer = document.querySelector('.recipes');
@@ -33,6 +33,7 @@ const displayRecipes = (recipes) => {
 
 /**
  * display all filters in DOM
+ * @param {Array} recipes
  */
 const displayFilters = (recipes) => {
   const filtersContainer = document.querySelector('.filters__container');
@@ -45,6 +46,24 @@ const displayFilters = (recipes) => {
 };
 
 /**
+ * display total numbers of recipes found
+ * @param {Array} recipes
+ */
+const displayNumberTotalRecipes = (recipes) => {
+  const numberTotalRecipesDOM = document.querySelector(
+    '.filters__total-recipes'
+  );
+  const numberTotalRecipes = recipes.length;
+  if (numberTotalRecipes < 10) {
+    numberTotalRecipesDOM.textContent = `0${numberTotalRecipes} recettes`;
+  } else if (numberTotalRecipes <= 1) {
+    numberTotalRecipesDOM.textContent = `0${numberTotalRecipes} recette`;
+  } else {
+    numberTotalRecipesDOM.textContent = `${numberTotalRecipes} recettes`;
+  }
+};
+
+/**
  * Function called on loading, retrieves data from recipes database
  */
 const init = () => {
@@ -53,6 +72,7 @@ const init = () => {
   displayFilters(recipes);
   displayRecipes(recipes);
   manageSearchInput(recipes, recipes);
+  displayNumberTotalRecipes(recipes);
 };
 
-export { displayRecipes };
+export { displayRecipes, displayNumberTotalRecipes };
