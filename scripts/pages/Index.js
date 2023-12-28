@@ -22,15 +22,16 @@ document.addEventListener('DOMContentLoaded', function () {
  * @param {Array} recipes
  */
 const displayRecipes = (recipes, inputText) => {
-  const recipesContainer = document.querySelector('.recipes');
+  const recipesContainer = document.getElementById('recipes');
   recipesContainer.innerHTML = '';
   if (recipes.length === 0) {
+    recipesContainer.className = 'recipes--not-found';
     const recipesNotFoundDOM = document.createElement('p');
-    recipesNotFoundDOM.textContent = `Aucune recette ne contient '${inputText}' vous pouvez chercher «
+    recipesNotFoundDOM.textContent = `Aucune recette ne contient '${inputText}', vous pouvez chercher «
     tarte aux pommes », « poisson », etc.`;
     recipesContainer.appendChild(recipesNotFoundDOM);
-  } else if (recipes.length >= 1) {
-    // displayRecipes(recipes);
+  } else if (recipes.length > 0) {
+    recipesContainer.className = 'recipes';
     recipes.forEach((recipe) => {
       recipe = Recipe(recipe);
       const cardDOM = displayRecipeCard(recipe);

@@ -5,12 +5,7 @@
 /*********************************************************************************/
 import { displayRecipes, displayNumberTotalRecipes } from '../pages/Index.js';
 import { displayTag } from '../vues/TagVue.js';
-import {
-  filtersQueries,
-  getAppliances,
-  getIngredients,
-  getUstensils,
-} from './FiltersQueries.js';
+import { filtersQueries, getRecipesElements } from './FiltersQueries.js';
 
 /**
  * manage filters depends of recipes list (filtered or not)
@@ -26,9 +21,15 @@ const manageFilters = (allRecipes, filteredRecipes) => {
   const filterIngredientsList = document.getElementById('ingredients-list');
   const filterAppliancesList = document.getElementById('appliances-list');
   const filterUstensilsList = document.getElementById('ustensils-list');
-  let filterIngredientsDatas = getIngredients(filteredRecipes);
-  let filterAppliancesDatas = getAppliances(filteredRecipes);
-  let filterUstensilsDatas = getUstensils(filteredRecipes);
+  const filterIngredientsDatas = getRecipesElements(
+    filteredRecipes,
+    'ingredients'
+  );
+  const filterAppliancesDatas = getRecipesElements(
+    filteredRecipes,
+    'appliances'
+  );
+  const filterUstensilsDatas = getRecipesElements(filteredRecipes, 'ustensils');
   let filters = [
     {
       name: 'ingredients',
@@ -63,10 +64,11 @@ const manageFilters = (allRecipes, filteredRecipes) => {
    */
   const updateFiltersDatas = (recipesList) => {
     const newFiltersDatas = [
-      getIngredients(recipesList),
-      getAppliances(recipesList),
-      getUstensils(recipesList),
+      getRecipesElements(recipesList, 'ingredients'),
+      getRecipesElements(recipesList, 'appliances'),
+      getRecipesElements(recipesList, 'ustensils'),
     ];
+
     filters.forEach((filter, index) => {
       filter.datas = newFiltersDatas[index];
       manageFilterList(filter);

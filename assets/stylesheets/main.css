@@ -306,6 +306,11 @@ main {
   grid-gap: 48px;
   grid-template-rows: 731px;
 }
+.recipes--not-found {
+  margin: 25px auto;
+  width: -moz-fit-content;
+  width: fit-content;
+}
 
 @media screen and (max-width: 1240px) {
   .recipes {

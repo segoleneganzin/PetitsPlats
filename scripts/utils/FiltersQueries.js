@@ -63,61 +63,30 @@ const manageUpperFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-const getIngredients = (recipesList) => {
-  // console.log(recipesList);
-  let ingredientsList = [];
+const getRecipesElements = (recipesList, filterBy) => {
+  let elementList = [];
   recipesList.forEach((recipe) => {
-    recipe.ingredients.forEach((ingredient) => {
-      // manage sensitive case
-      const ingredientUpperCase = manageUpperFirstLetter(ingredient.ingredient);
-      // Check if the utensil is not already in the list
-      if (!ingredientsList.includes(ingredientUpperCase)) {
-        ingredientsList.push(ingredientUpperCase);
+    if (filterBy === 'ingredients' || filterBy === 'ustensils') {
+      recipe[filterBy].forEach((element) => {
+        let elementUpperCase;
+        if (filterBy === 'ingredients') {
+          elementUpperCase = manageUpperFirstLetter(element.ingredient);
+        } else {
+          elementUpperCase = manageUpperFirstLetter(element);
+        }
+        if (!elementList.includes(elementUpperCase)) {
+          elementList.push(elementUpperCase);
+        }
+      });
+    } else if (filterBy === 'appliances') {
+      const applianceUpperCase = manageUpperFirstLetter(recipe.appliance);
+      if (!elementList.includes(applianceUpperCase)) {
+        elementList.push(applianceUpperCase);
       }
-    });
-  });
-  // sort by alphabetic order
-  ingredientsList.sort((a, b) => {
-    return a.localeCompare(b);
-  });
-  return ingredientsList;
-};
-
-const getAppliances = (recipesList) => {
-  let appliancesList = [];
-  recipesList.forEach((recipe) => {
-    // manage sensitive case
-    const applianceUpperCase = manageUpperFirstLetter(recipe.appliance);
-    // Check if the appliance is not already in the list
-    if (!appliancesList.includes(applianceUpperCase)) {
-      appliancesList.push(applianceUpperCase);
     }
   });
-  // sort by alphabetic order
-  appliancesList.sort((a, b) => {
-    return a.localeCompare(b);
-  });
-  return appliancesList;
+  elementList.sort((a, b) => a.localeCompare(b));
+  return elementList;
 };
 
-const getUstensils = (recipesList) => {
-  let ustensilsList = [];
-  recipesList.forEach((recipe) => {
-    recipe.ustensils.forEach((ustensil) => {
-      // manage sensitive case
-      const ustensilUpperCase = manageUpperFirstLetter(ustensil);
-      ustensil.charAt(0).toUpperCase() + ustensil.slice(1);
-      // Check if the utensil is not already in the list
-      if (!ustensilsList.includes(ustensilUpperCase)) {
-        ustensilsList.push(ustensilUpperCase);
-      }
-    });
-  });
-  // sort by alphabetic order
-  ustensilsList.sort((a, b) => {
-    return a.localeCompare(b);
-  });
-  return ustensilsList;
-};
-
-export { filtersQueries, getIngredients, getAppliances, getUstensils };
+export { filtersQueries, getRecipesElements };
