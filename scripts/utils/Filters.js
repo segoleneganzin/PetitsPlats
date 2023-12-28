@@ -19,7 +19,6 @@ import {
  * @returns {functions}
  */
 const manageFilters = (allRecipes, filteredRecipes) => {
-  console.log('coucou');
   // filters by tags
   const filterIngredientsButton = document.getElementById('filter-ingredients');
   const filterAppliancesButton = document.getElementById('filter-appliances');
@@ -137,27 +136,37 @@ const manageFilters = (allRecipes, filteredRecipes) => {
   };
 
   /**
-   * Add tag selected by user
+   * Add tag selected by user (avoid duplicate tags)
    * @param {object} filter
    * @param {string} tagName
    */
   const addTag = (filter, tagName) => {
-    // TODO avoid duplicated tags
     if (tagsContainer.className === 'tags') {
       tagsContainer.className = 'tags--activate';
     }
-    numberTags += 1;
-    const filterName = filter.name === 'appliances' ? 'appliance' : filter.name;
-    displayTag(tagName, tagsList, removeTag);
-    tagsListElement.push({
-      tagName: tagName,
-      filterName: filterName,
-    });
+    let duplicateTagsCount = 0;
+    if (tagsListElement.length > 0) {
+      for (let i = 0; i < tagsListElement.length; i++) {
+        if (tagsListElement[i].tagName === tagName) {
+          duplicateTagsCount++;
+        }
+      }
+    }
+    if (duplicateTagsCount === 0) {
+      numberTags += 1;
+      const filterName =
+        filter.name === 'appliances' ? 'appliance' : filter.name;
+      displayTag(tagName, tagsList, removeTag);
+      tagsListElement.push({
+        tagName: tagName,
+        filterName: filterName,
+      });
+      filteredRecipesByTag = filtersQueries(filteredRecipesByTag, tagName, [
+        filterName,
+      ]);
+      updateDatas(filteredRecipesByTag);
+    }
     toggleFilter(filter);
-    filteredRecipesByTag = filtersQueries(filteredRecipesByTag, tagName, [
-      filterName,
-    ]);
-    updateDatas(filteredRecipesByTag);
   };
 
   /**
