@@ -284,6 +284,8 @@ main {
 }
 .tags__list {
   gap: 15px;
+  flex-wrap: wrap;
+  max-width: 100%;
 }
 
 @media screen and (max-width: 1024px) {
@@ -464,4 +466,11 @@ main {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 21px;
+}
+
+@media screen and (max-width: 700px) {
+  .recipe-card__instruction {
+    max-height: 100px;
+    overflow: hidden;
+  }
 }

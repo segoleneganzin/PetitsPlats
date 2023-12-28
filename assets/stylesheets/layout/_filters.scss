@@ -18,6 +18,8 @@
   }
   &__list {
     gap: 15px;
+    flex-wrap: wrap;
+    max-width: 100%;
   }
 }
 

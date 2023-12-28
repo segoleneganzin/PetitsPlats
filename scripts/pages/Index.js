@@ -21,14 +21,22 @@ document.addEventListener('DOMContentLoaded', function () {
  * Function that retrieves the div containing all the recipes and displays them
  * @param {Array} recipes
  */
-const displayRecipes = (recipes) => {
+const displayRecipes = (recipes, inputText) => {
   const recipesContainer = document.querySelector('.recipes');
   recipesContainer.innerHTML = '';
-  recipes.forEach((recipe) => {
-    recipe = Recipe(recipe);
-    const cardDOM = displayRecipeCard(recipe);
-    recipesContainer.appendChild(cardDOM);
-  });
+  if (recipes.length === 0) {
+    const recipesNotFoundDOM = document.createElement('p');
+    recipesNotFoundDOM.textContent = `Aucune recette ne contient '${inputText}' vous pouvez chercher «
+    tarte aux pommes », « poisson », etc.`;
+    recipesContainer.appendChild(recipesNotFoundDOM);
+  } else if (recipes.length >= 1) {
+    // displayRecipes(recipes);
+    recipes.forEach((recipe) => {
+      recipe = Recipe(recipe);
+      const cardDOM = displayRecipeCard(recipe);
+      recipesContainer.appendChild(cardDOM);
+    });
+  }
 };
 
 /**

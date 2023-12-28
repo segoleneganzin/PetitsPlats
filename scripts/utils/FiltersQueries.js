@@ -1,3 +1,11 @@
+/**
+ * manage request depend of filter value and filter by (it can be name, description, ingredients, ...)
+ * search bar + advanced filters
+ * @param {Array} recipes
+ * @param {string} filterValue
+ * @param {Array} filterBy
+ * @returns
+ */
 const filtersQueries = (recipes, filterValue, filterBy) => {
   // mange letter lower case for avoid break case
   const filterValueLowerCase = filterValue.toLowerCase();
@@ -48,6 +56,8 @@ const filtersQueries = (recipes, filterValue, filterBy) => {
   }
   return filteredRecipes;
 };
+
+// ************************************** advanced filters for tags
 
 const manageUpperFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);

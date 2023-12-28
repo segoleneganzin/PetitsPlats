@@ -26,7 +26,7 @@ const manageSearchInput = (allRecipes, filteredRecipes) => {
         inputText,
         filterBy
       );
-      updateFilters(allRecipes, filteredRecipesBySearch);
+      updateFilters(allRecipes, filteredRecipesBySearch, inputText);
     }
     // empty input on cross click
     filterEmpty.addEventListener('click', () => {
@@ -38,11 +38,17 @@ const manageSearchInput = (allRecipes, filteredRecipes) => {
 };
 
 /**
- * regenerate recipes with filter
+ * regenerate recipes view with appropriate filters
  * @param {Array} originalList
  */
-const updateFilters = (originalList, filteredList) => {
-  displayRecipes(filteredList);
+const updateFilters = (originalList, filteredList, inputText) => {
+  // console.log(filteredList.length);
+  // if (filteredList.length === 0) {
+  //   console.log(`Aucune recette ne contient ${inputText} vous pouvez chercher «
+  //   tarte aux pommes », « poisson », etc.`);
+  // } else if (filteredList.length >= 1) {
+  displayRecipes(filteredList, inputText);
+  // }
   // manage advanced filters
   manageFilters(originalList, filteredList);
   displayNumberTotalRecipes(filteredList);
