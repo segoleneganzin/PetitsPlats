@@ -64,20 +64,27 @@ const getRecipesElements = (recipesList, filterBy) => {
   recipesList.forEach((recipe) => {
     if (filterBy === 'ingredients' || filterBy === 'ustensils') {
       recipe[filterBy].forEach((element) => {
-        let elementUpperCase;
+        let formattedElement;
         if (filterBy === 'ingredients') {
-          elementUpperCase = manageUpperFirstLetter(element.ingredient);
+          // prevent sensitive case
+          formattedElement = manageUpperFirstLetter(
+            element.ingredient.toLowerCase()
+          );
         } else {
-          elementUpperCase = manageUpperFirstLetter(element);
+          // prevent sensitive case
+          formattedElement = manageUpperFirstLetter(element.toLowerCase());
         }
-        if (!elementList.includes(elementUpperCase)) {
-          elementList.push(elementUpperCase);
+        if (!elementList.includes(formattedElement)) {
+          elementList.push(formattedElement);
         }
       });
     } else if (filterBy === 'appliances') {
-      const applianceUpperCase = manageUpperFirstLetter(recipe.appliance);
-      if (!elementList.includes(applianceUpperCase)) {
-        elementList.push(applianceUpperCase);
+      // prevent sensitive case
+      const formattedAppliance = manageUpperFirstLetter(
+        recipe.appliance.toLowerCase()
+      );
+      if (!elementList.includes(formattedAppliance)) {
+        elementList.push(formattedAppliance);
       }
     }
   });
