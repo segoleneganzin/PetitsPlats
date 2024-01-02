@@ -1,4 +1,8 @@
-import { displayRecipes, displayNumberTotalRecipes } from '../pages/Index.js';
+import {
+  displayRecipes,
+  displayNumberTotalRecipes,
+  sanitize,
+} from '../pages/Index.js';
 import { filtersQueries } from './FiltersQueries.js';
 import { manageFilters } from './Filters.js';
 /**
@@ -12,6 +16,7 @@ const manageSearchInput = (allRecipes, filteredRecipes) => {
   // typing event
   filterInput.addEventListener('input', (event) => {
     let inputText = event.target.value;
+    inputText = sanitize(inputText);
     filterEmpty.classList.add('empty-input-button--typing');
     if (inputText.length === 0) {
       filterEmpty.classList.remove('empty-input-button--typing');
@@ -40,15 +45,11 @@ const manageSearchInput = (allRecipes, filteredRecipes) => {
 /**
  * regenerate recipes view with appropriate filters
  * @param {Array} originalList
+ * @param {Array} filteredList
+ * @param {string} inputText *optionnal
  */
 const updateFilters = (originalList, filteredList, inputText) => {
-  // console.log(filteredList.length);
-  // if (filteredList.length === 0) {
-  //   console.log(`Aucune recette ne contient ${inputText} vous pouvez chercher «
-  //   tarte aux pommes », « poisson », etc.`);
-  // } else if (filteredList.length >= 1) {
   displayRecipes(filteredList, inputText);
-  // }
   // manage advanced filters
   manageFilters(originalList, filteredList);
   displayNumberTotalRecipes(filteredList);
