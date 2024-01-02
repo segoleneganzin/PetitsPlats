@@ -73,15 +73,6 @@ const displayNumberTotalRecipes = (recipes) => {
 };
 
 /**
- * Prevent XSS injection by replacing HTML tags into forms
- * @param {string} input
- * @returns {string}
- */
-function sanitize(input) {
-  return input.replace(/<[^>]*>/g, '');
-}
-
-/**
  * Function called on loading, retrieves data from recipes database
  */
 const init = () => {
@@ -93,4 +84,4 @@ const init = () => {
   displayNumberTotalRecipes(recipes);
 };
 
-export { displayRecipes, displayNumberTotalRecipes, sanitize };
+export { displayRecipes, displayNumberTotalRecipes };

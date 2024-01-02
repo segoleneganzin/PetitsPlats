@@ -1,10 +1,8 @@
-import {
-  displayRecipes,
-  displayNumberTotalRecipes,
-  sanitize,
-} from '../pages/Index.js';
+import { displayRecipes, displayNumberTotalRecipes } from '../pages/Index.js';
 import { filtersQueries } from './FiltersQueries.js';
 import { manageFilters } from './Filters.js';
+import { sanitize } from './Helpers.js';
+
 /**
  * Manage input when user typing (display cross and recipes corresponded (only after 3 characters typing))
  * @param {Array} allRecipes

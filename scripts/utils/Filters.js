@@ -6,6 +6,7 @@
 import { displayRecipes, displayNumberTotalRecipes } from '../pages/Index.js';
 import { displayTag } from '../vues/TagVue.js';
 import { filtersQueries, getRecipesElements } from './FiltersQueries.js';
+import { manageTagsInput } from './TagsInput.js';
 
 /**
  * manage filters depends of recipes list (filtered or not)
@@ -106,6 +107,7 @@ const manageFilters = (allRecipes, filteredRecipes) => {
       filter.list.classList.add('filter__list-container--open');
       filter.button.classList.add('filter--open');
       filter.button.setAttribute('aria-expanded', true);
+      manageTagsInput(filter, manageFilterList);
       manageFilterList(filter);
     } else {
       filter.list.classList.remove('filter__list-container--open');
@@ -227,6 +229,7 @@ const manageFilters = (allRecipes, filteredRecipes) => {
       toggleFilter(filter);
     });
   });
+  // clear tags when user make a general search into hero search bar
   const filterInput = document.getElementById('hero-search');
   filterInput.addEventListener('input', (event) => {
     let inputText = event.target.value;

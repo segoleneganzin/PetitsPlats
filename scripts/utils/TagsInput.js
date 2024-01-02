@@ -1,50 +1,37 @@
-const manageTagsInput = (filterId, filterName) => {
-  // work on two list (one for search and other for tag)
-  const filterInput = document.getElementById(filterId);
-  const filterEmpty = document.getElementById(`empty-filter-${filterName}`);
+import { sanitize } from './Helpers.js';
+
+const manageTagsInput = (filter, manageFilterList) => {
+  const originalFilterDatas = filter.datas;
+  const filterInput = document.getElementById(`filter-search-${filter.name}`);
+  const filterEmpty = document.getElementById(`empty-filter-${filter.name}`);
+  filterInput.value = '';
+  filterEmpty.classList.remove('empty-input-button--typing');
   // typing event
   filterInput.addEventListener('input', (event) => {
     let inputText = event.target.value;
-    // console.log(inputText);
+    inputText = sanitize(inputText);
     filterEmpty.classList.add('empty-input-button--typing');
     if (inputText.length === 0) {
       filterEmpty.classList.remove('empty-input-button--typing');
     }
     if (inputText.length < 3) {
-      // displayRecipes(recipes);
-      // TODO display filter list
+      filter.datas = originalFilterDatas;
+      manageFilterList(filter);
     }
     if (inputText.length >= 3) {
-      switch (filterName) {
-        case 'ingredients':
-          // ingredients.datas = ...;
-          // manageFilterList(ingredients);
-          break;
-        case 'appliances':
-          // filter list of appliances (appliances.datas)
-          break;
-        case 'ustensils':
-          // TODO
-          // filter list of ustensils (ustensils.datas)
-          break;
-        default:
-          console.log('no datas to filtered');
-          break;
-      }
-      // filteredList = filtersQueries(filteredRecipes, inputText, filterBy);
-      // displayRecipes(filteredRecipes);
-      // updateFiltersDatas(filteredRecipes);
+      filter.datas = filter.datas.filter((word) =>
+        word.toLowerCase().includes(inputText.toLowerCase())
+      );
+      manageFilterList(filter);
     }
   });
 
   // empty input on cross click
   filterEmpty.addEventListener('click', () => {
     filterInput.value = '';
-    filteredRecipes = recipes;
     filterEmpty.classList.remove('empty-input-button--typing');
-    displayRecipes(recipes);
-    // manage advanced filters
-    updateFiltersDatas(recipes);
+    filter.datas = originalFilterDatas;
+    manageFilterList(filter);
   });
 };
 

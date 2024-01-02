@@ -1,3 +1,4 @@
+import { manageUpperFirstLetter } from './Helpers.js';
 /**
  * manage request depend of filter value and filter by (it can be name, description, ingredients, ...)
  * search bar + advanced filters
@@ -58,11 +59,6 @@ const filtersQueries = (recipes, filterValue, filterBy) => {
 };
 
 // ************************************** advanced filters for tags
-
-const manageUpperFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
-
 const getRecipesElements = (recipesList, filterBy) => {
   let elementList = [];
   recipesList.forEach((recipe) => {
@@ -89,4 +85,4 @@ const getRecipesElements = (recipesList, filterBy) => {
   return elementList;
 };
 
-export { filtersQueries, getRecipesElements };
+export { filtersQueries, getRecipesElements, manageUpperFirstLetter };
