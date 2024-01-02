@@ -14,12 +14,8 @@ const manageTagsInput = (filter, manageFilterList) => {
     if (inputText.length === 0) {
       filterEmpty.classList.remove('empty-input-button--typing');
     }
-    if (inputText.length < 3) {
-      filter.datas = originalFilterDatas;
-      manageFilterList(filter);
-    }
-    if (inputText.length >= 3) {
-      filter.datas = filter.datas.filter((word) =>
+    if (inputText.length > 0) {
+      filter.datas = originalFilterDatas.filter((word) =>
         word.toLowerCase().includes(inputText.toLowerCase())
       );
       manageFilterList(filter);
