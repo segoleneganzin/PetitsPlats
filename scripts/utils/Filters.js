@@ -12,7 +12,6 @@ import { manageTagsInput } from './TagsInput.js';
  * manage filters depends of recipes list (filtered or not)
  * @param {Array} allRecipes
  * @param {Array} filteredRecipes
- * @returns {functions}
  */
 const manageFilters = (allRecipes, filteredRecipes) => {
   // filters by tags
@@ -60,7 +59,7 @@ const manageFilters = (allRecipes, filteredRecipes) => {
 
   /**
    * Manage datas to display into filters
-   * when the user select tag
+   * when the user select a tag
    * @param {Array} recipesList
    */
   const updateFiltersDatas = (recipesList) => {
@@ -87,37 +86,41 @@ const manageFilters = (allRecipes, filteredRecipes) => {
   };
 
   /**
-   * manage open/close filter list
+   * manage open/close filter list and class for css animations
    * Close opened filter when another is open
-   * @param {html} listButton
-   * @param {html} listDOM
+   * @param {object} filter
    */
   const toggleFilter = (filter) => {
     const allListButtons = document.querySelectorAll('.filter__button');
     const allListDOM = document.querySelectorAll('.filter__list-container');
     const ariaExpandedAttribute = filter.button.getAttribute('aria-expanded');
     if (ariaExpandedAttribute === 'false') {
+      // close all filters
       allListButtons.forEach((button) => {
         button.classList.remove('filter--open');
         button.setAttribute('aria-expanded', false);
       });
-      allListDOM.forEach((list) =>
-        list.classList.remove('filter__list-container--open')
-      );
+      allListDOM.forEach((list) => {
+        list.classList.remove('filter__list-container--open');
+        list.classList.remove('filter__list-container--close');
+      });
+      // open selected filter
       filter.list.classList.add('filter__list-container--open');
       filter.button.classList.add('filter--open');
       filter.button.setAttribute('aria-expanded', true);
       manageTagsInput(filter, manageFilterList);
       manageFilterList(filter);
     } else {
+      // close selected filter
       filter.list.classList.remove('filter__list-container--open');
+      filter.list.classList.add('filter__list-container--close');
       filter.button.classList.remove('filter--open');
       filter.button.setAttribute('aria-expanded', false);
     }
   };
 
   /**
-   * At open, all the datas of recipes filtered are display
+   * At open, all the datas of filtered recipes are display
    * @param {object} filter
    */
   const manageFilterList = (filter) => {

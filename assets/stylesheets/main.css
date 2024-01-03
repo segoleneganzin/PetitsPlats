@@ -185,6 +185,15 @@ main {
   width: 1px;
 }
 
+/* animations */
+@keyframes apparition {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 1;
+  }
+}
 /***************************** HERO HEADER *****************************/
 .hero {
   background-image: url("../photos/lampos-aritonang-24gR_9lCdes-unsplash-1.webp");
@@ -275,19 +284,6 @@ main {
   align-self: center;
 }
 
-.tags {
-  height: 55px;
-}
-.tags--activate {
-  height: auto;
-  padding: 21px 0 43px;
-}
-.tags__list {
-  gap: 15px;
-  flex-wrap: wrap;
-  max-width: 100%;
-}
-
 @media screen and (max-width: 1024px) {
   .filters {
     flex-direction: column;
@@ -320,6 +316,38 @@ main {
 @media screen and (max-width: 955px) {
   .recipes {
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+.tags {
+  animation: tagsDisappearing 500ms forwards;
+  height: 55px;
+}
+.tags--activate {
+  animation: tagsAppearing 500ms forwards;
+  height: auto;
+  padding: 21px 0 0;
+  transform-origin: top;
+}
+.tags__list {
+  gap: 15px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+@keyframes tagsAppearing {
+  0% {
+    padding-bottom: 0;
+  }
+  100% {
+    padding-bottom: 43px;
+  }
+}
+@keyframes tagsDisappearing {
+  0% {
+    height: 98px;
+  }
+  100% {
+    height: 55px;
   }
 }
 /***************************** FORM *****************************/
@@ -357,6 +385,7 @@ main {
   border-radius: 0 0 11px 11px;
   display: none;
   margin-top: -8px;
+  overflow-y: hidden;
   position: absolute;
   z-index: 2;
 }
@@ -376,10 +405,15 @@ main {
   width: 75%;
 }
 .filter__list-container--open {
-  animation: openList forwards 300ms;
+  animation: openList forwards 0.3s;
   display: flex;
   transform-origin: top;
   z-index: 1;
+}
+.filter__list-container--close {
+  animation: closeList forwards 0.3s;
+  display: flex;
+  transform-origin: top;
 }
 .filter__list-items {
   gap: 13px;
@@ -394,13 +428,6 @@ main {
 }
 .filter--open .filter__arrow {
   animation: arrowChange forwards 0.2s;
-}
-
-.tags__list li {
-  background-color: #ffd15b;
-  border-radius: 10px;
-  gap: 60px;
-  padding: 17px 18px;
 }
 
 @keyframes arrowChange {
@@ -425,12 +452,18 @@ main {
 }
 @keyframes openList {
   from {
-    transform: scale(1, 0);
-    opacity: 0;
+    max-height: 0;
   }
   to {
-    transform: scale(1, 1);
-    opacity: 1;
+    max-height: 250px;
+  }
+}
+@keyframes closeList {
+  from {
+    max-height: 250px;
+  }
+  to {
+    max-height: 0;
   }
 }
 /***************************** RECIPE CARD *****************************/
@@ -478,4 +511,11 @@ main {
     max-height: 100px;
     overflow: hidden;
   }
+}
+.tag {
+  animation: apparition 500ms forwards;
+  background-color: #ffd15b;
+  border-radius: 10px;
+  gap: 60px;
+  padding: 17px 18px;
 }

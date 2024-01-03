@@ -1,6 +1,6 @@
 const displayTag = (tagName, tagsList, removeTag) => {
   const tag = document.createElement('li');
-  tag.className = 'flex-row';
+  tag.className = 'tag flex-row';
   tag.setAttribute('id', tagName.split(' ').join('') + '-selected');
   const tagContent = document.createElement('span');
   tagContent.textContent = tagName;
