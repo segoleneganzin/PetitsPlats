@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /**
  * Function that retrieves the div containing all the recipes and displays them
  * @param {Array} recipes
+ * @param {string} inputText *optionnal
  */
 const displayRecipes = (recipes, inputText) => {
   const recipesContainer = document.getElementById('recipes');

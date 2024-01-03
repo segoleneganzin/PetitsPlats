@@ -1,3 +1,16 @@
+/*********************************************************************************
+*
+* This file manage vue of one tag 
+*
+/*********************************************************************************/
+
+/**
+ * Function that creates a li to display the selected tag
+ * @param {string} tagName
+ * @param {html} tagsList
+ * @param {function} removeTag
+ * @returns {html}
+ */
 const displayTag = (tagName, tagsList, removeTag) => {
   const tag = document.createElement('li');
   tag.className = 'tag flex-row';

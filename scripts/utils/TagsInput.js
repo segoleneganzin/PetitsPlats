@@ -1,5 +1,10 @@
 import { sanitize } from './Helpers.js';
 
+/**
+ * manage list of display elements when user is typing into input from filter by tag
+ * @param {object} filter
+ * @param {function} manageFilterList
+ */
 const manageTagsInput = (filter, manageFilterList) => {
   const originalFilterDatas = filter.datas;
   const filterInput = document.getElementById(`filter-search-${filter.name}`);

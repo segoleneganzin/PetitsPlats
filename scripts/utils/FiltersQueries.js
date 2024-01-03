@@ -5,7 +5,7 @@ import { manageUpperFirstLetter } from './Helpers.js';
  * @param {Array} recipes
  * @param {string} filterValue
  * @param {Array} filterBy
- * @returns
+ * @returns {Array}
  */
 const filtersQueries = (recipes, filterValue, filterBy) => {
   // mange letter lower case for avoid break case
@@ -15,31 +15,20 @@ const filtersQueries = (recipes, filterValue, filterBy) => {
     //
     let j = 0;
     while (j < filterBy.length) {
-      if (filterBy[j] === 'ingredients') {
-        const ingredientsList = recipes[i][filterBy[j]];
+      // manage array into recipe
+      if (filterBy[j] === 'ingredients' || filterBy[j] === 'ustensils') {
+        const elementList = recipes[i][filterBy[j]];
         let k = 0;
-        while (k < ingredientsList.length) {
-          if (
-            ingredientsList[k].ingredient
-              .toLowerCase()
-              .includes(filterValueLowerCase)
-          ) {
-            filteredRecipes.push(recipes[i]);
-            // as soon as the search item is found in a recipe, we move on to the next one
-            j = filterBy.length;
-            k = ingredientsList.length;
+        while (k < elementList.length) {
+          let element = elementList[k];
+          if (filterBy[j] === 'ingredients') {
+            element = elementList[k].ingredient;
           }
-          k++;
-        }
-      } else if (filterBy[j] === 'ustensils') {
-        const ustensilsList = recipes[i][filterBy[j]];
-        let k = 0;
-        while (k < ustensilsList.length) {
-          if (ustensilsList[k].toLowerCase().includes(filterValueLowerCase)) {
+          if (element.toLowerCase().includes(filterValueLowerCase)) {
             filteredRecipes.push(recipes[i]);
             // as soon as the search item is found in a recipe, we move on to the next one
+            k = elementList.length;
             j = filterBy.length;
-            k = ustensilsList.length;
           }
           k++;
         }
@@ -59,6 +48,12 @@ const filtersQueries = (recipes, filterValue, filterBy) => {
 };
 
 // ************************************** advanced filters for tags
+/**
+ * get all element (ingredients, appliances, ustensils, ...) of recipes
+ * @param {Array} recipesList
+ * @param {string} filterBy
+ * @returns
+ */
 const getRecipesElements = (recipesList, filterBy) => {
   let elementList = [];
   recipesList.forEach((recipe) => {
@@ -92,4 +87,4 @@ const getRecipesElements = (recipesList, filterBy) => {
   return elementList;
 };
 
-export { filtersQueries, getRecipesElements, manageUpperFirstLetter };
+export { filtersQueries, getRecipesElements };
