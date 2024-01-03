@@ -8,42 +8,30 @@ import { manageUpperFirstLetter } from './Helpers.js';
  * @returns {Array}
  */
 const filtersQueries = (recipes, filterValue, filterBy) => {
-  // mange letter lower case for avoid break case
+  // Converts filter value to lowercase for case-insensitive matching
   const filterValueLowerCase = filterValue.toLowerCase();
-  const filteredRecipes = [];
-  for (let i = 0; i < recipes.length; i++) {
-    //
-    let j = 0;
-    while (j < filterBy.length) {
-      // manage array into recipe
-      if (filterBy[j] === 'ingredients' || filterBy[j] === 'ustensils') {
-        const elementList = recipes[i][filterBy[j]];
-        let k = 0;
-        while (k < elementList.length) {
-          let element = elementList[k];
-          if (filterBy[j] === 'ingredients') {
-            element = elementList[k].ingredient;
-          }
-          if (element.toLowerCase().includes(filterValueLowerCase)) {
-            filteredRecipes.push(recipes[i]);
-            // as soon as the search item is found in a recipe, we move on to the next one
-            k = elementList.length;
-            j = filterBy.length;
-          }
-          k++;
-        }
+  // Filters recipes according to specified filters
+  const filteredRecipes = recipes.filter((recipe) => {
+    // Checks if at least one of the filters matches the current recipe
+    // if a filter matches, go on to the next recipe
+    return filterBy.some((filter) => {
+      // console.log(filter, recipe.name);
+      // if filter is an array
+      if (filter === 'ingredients' || filter === 'ustensils') {
+        const elementList = recipe[filter];
+        // Checks whether at least one element in the list matches the filtered value (if so, go on to the next recipe)
+        return elementList.some((element) => {
+          const elementText =
+            filter === 'ingredients' ? element.ingredient : element;
+          // 'break' equivalent if true
+          return elementText.toLowerCase().includes(filterValueLowerCase);
+        });
       } else {
-        if (
-          recipes[i][filterBy[j]].toLowerCase().includes(filterValueLowerCase)
-        ) {
-          filteredRecipes.push(recipes[i]);
-          // as soon as the search item is found in a recipe, we move on to the next one
-          j = filterBy.length;
-        }
+        // Checks whether the recipe attribute matches the filtered value for other filter types
+        return recipe[filter].toLowerCase().includes(filterValueLowerCase);
       }
-      j++;
-    }
-  }
+    });
+  });
   return filteredRecipes;
 };
 
