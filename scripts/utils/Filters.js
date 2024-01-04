@@ -30,7 +30,7 @@ const manageFilters = (allRecipes, filteredRecipes) => {
     'appliances'
   );
   const filterUstensilsDatas = getRecipesElements(filteredRecipes, 'ustensils');
-  let filters = [
+  const filters = [
     {
       name: 'ingredients',
       button: filterIngredientsButton,
