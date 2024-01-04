@@ -20,6 +20,7 @@ const filtersQueries = (recipes, filterValue, filterBy) => {
       if (filter === 'ingredients' || filter === 'ustensils') {
         const elementList = recipe[filter];
         // Checks whether at least one element in the list matches the filtered value (if so, go on to the next recipe)
+        // 'break' equivalent if true
         return elementList.some((element) => {
           const elementText =
             filter === 'ingredients' ? element.ingredient : element;
