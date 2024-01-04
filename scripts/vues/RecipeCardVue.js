@@ -13,7 +13,7 @@ const displayRecipeCard = (recipe) => {
   // article container
   const article = document.createElement('article');
   article.className = 'recipe-card flex-col';
-  let src = `assets/photos/${recipe.image}`;
+  const src = `assets/photos/${recipe.image}`;
   const ingredientsList = recipe.ingredients
     .map(
       (ingredient) => `    <li class="flex-col">
