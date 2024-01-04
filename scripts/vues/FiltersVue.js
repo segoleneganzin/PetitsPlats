@@ -31,7 +31,7 @@ const displayFilter = (filterName) => {
 
   const filter = `
     <button type="button" name="${filterNameFormatted}" class="filter__button flex-row" id="filter-${filterName}" aria-expanded="false"
-          aria-controls="${filterName}-list" aria-label="${filterNameFormatted} à filtrer" aria-haspopup="listbox">
+          aria-controls="${filterName}-list" aria-haspopup="listbox">
       ${filterNameFormatted}
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="8" viewBox="0 0 15 8" fill="none" class="filter__arrow">
           <title>Ouvrir le filtre des ${filterNameFormatted}</title>
