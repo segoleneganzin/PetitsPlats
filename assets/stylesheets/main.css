@@ -519,3 +519,6 @@ main {
   gap: 60px;
   padding: 17px 18px;
 }
+.tag button {
+  cursor: pointer;
+}
