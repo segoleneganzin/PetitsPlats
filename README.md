@@ -25,6 +25,7 @@ Le second s'appuie sur les Array method de JavaScript (voir la branche 'recipe-f
 
 La branche main contient l'algorithme retenu (V2)
 
+
 ### 💡 Technologies et modèles
 
 HTML5/CSS3 <br>
