@@ -201,7 +201,7 @@ main {
   height: 667px;
 }
 .hero__logo {
-  padding: 69px;
+  padding: 45px 69px 93px;
   width: -moz-fit-content;
   width: fit-content;
 }
