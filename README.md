@@ -21,7 +21,9 @@ La priorité absolue est la **fluidité du moteur de recherche**. <br>
 
 Dans ce contexte j'ai implémenté deux algorithmes, pour la recherche principale, en vue de les comparer et de sélectionner le plus performant. <br>
 Le premier utilise les boucles natives while et for (voir la branche 'recipe-filters-v1'). <br>
-Le second s'appuie sur les Array method de JavaScript (voir la branche 'recipe-filters-v2')
+Le second s'appuie sur les Array method de JavaScript (voir la branche 'recipe-filters-v2') <br>
+
+La branche main contient l'algorithme retenu (V2)
 
 ### 💡 Technologies et modèles
 
