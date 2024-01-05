@@ -3,22 +3,33 @@
 * This file manage filters
 *
 /*********************************************************************************/
-import { ApiRecipes } from '../models/api/ApiRecipes.js';
-/**
- * manage click on button filter and what to display
- */
+import { displayRecipes, displayNumberTotalRecipes } from '../pages/Index.js';
+import { displayTag } from '../vues/TagVue.js';
+import { filtersQueries, getRecipesElements } from './FiltersQueries.js';
+import { manageTagsInput } from './TagsInput.js';
 
-const manageFilters = () => {
-  // filters
+/**
+ * manage filters depends of recipes list (filtered or not)
+ * @param {Array} allRecipes
+ * @param {Array} filteredRecipes
+ */
+const manageFilters = (allRecipes, filteredRecipes) => {
+  // filters by tags
   const filterIngredientsButton = document.getElementById('filter-ingredients');
   const filterAppliancesButton = document.getElementById('filter-appliances');
   const filterUstensilsButton = document.getElementById('filter-ustensils');
   const filterIngredientsList = document.getElementById('ingredients-list');
   const filterAppliancesList = document.getElementById('appliances-list');
   const filterUstensilsList = document.getElementById('ustensils-list');
-  let filterIngredientsDatas = ApiRecipes().getAllIngredients();
-  let filterAppliancesDatas = ApiRecipes().getAllAppliances();
-  let filterUstensilsDatas = ApiRecipes().getAllUstensils();
+  const filterIngredientsDatas = getRecipesElements(
+    filteredRecipes,
+    'ingredients'
+  );
+  const filterAppliancesDatas = getRecipesElements(
+    filteredRecipes,
+    'appliances'
+  );
+  const filterUstensilsDatas = getRecipesElements(filteredRecipes, 'ustensils');
   const filters = [
     {
       name: 'ingredients',
@@ -42,47 +53,80 @@ const manageFilters = () => {
   // tags (selected filters)
   const tagsContainer = document.getElementById('tags');
   const tagsList = document.querySelector('.tags__list');
+  let tagsListElement = [];
   let numberTags = 0;
+  let filteredRecipesByTag = filteredRecipes;
 
   /**
-   * manage open/close filter list
-   * Close opened filter when another is open
-   * @param {html} listButton
-   * @param {html} listDOM
+   * Manage datas to display into filters
+   * when the user select a tag
+   * @param {Array} recipesList
    */
-  const toggleFilter = (listButton, listDOM) => {
+  const updateFiltersDatas = (recipesList) => {
+    const newFiltersDatas = [
+      getRecipesElements(recipesList, 'ingredients'),
+      getRecipesElements(recipesList, 'appliances'),
+      getRecipesElements(recipesList, 'ustensils'),
+    ];
+
+    filters.forEach((filter, index) => {
+      filter.datas = newFiltersDatas[index];
+      manageFilterList(filter);
+    });
+  };
+
+  /**
+   * Update recipes view, number of total recipes found and filters datas
+   * @param {Array} recipesList
+   */
+  const updateDatas = (recipesList) => {
+    displayRecipes(recipesList);
+    displayNumberTotalRecipes(recipesList);
+    updateFiltersDatas(recipesList);
+  };
+
+  /**
+   * manage open/close filter list and class for css animations
+   * Close opened filter when another is open
+   * @param {object} filter
+   */
+  const toggleFilter = (filter) => {
     const allListButtons = document.querySelectorAll('.filter__button');
     const allListDOM = document.querySelectorAll('.filter__list-container');
-    const ariaExpandedAttribute = listButton.getAttribute('aria-expanded');
+    const ariaExpandedAttribute = filter.button.getAttribute('aria-expanded');
     if (ariaExpandedAttribute === 'false') {
+      // close all filters
       allListButtons.forEach((button) => {
         button.classList.remove('filter--open');
         button.setAttribute('aria-expanded', false);
       });
-      allListDOM.forEach((list) =>
-        list.classList.remove('filter__list-container--open')
-      );
-      listDOM.classList.add('filter__list-container--open');
-      listButton.classList.add('filter--open');
-      listButton.setAttribute('aria-expanded', true);
+      allListDOM.forEach((list) => {
+        list.classList.remove('filter__list-container--open');
+        list.classList.remove('filter__list-container--close');
+      });
+      // open selected filter
+      filter.list.classList.add('filter__list-container--open');
+      filter.button.classList.add('filter--open');
+      filter.button.setAttribute('aria-expanded', true);
+      manageTagsInput(filter, manageFilterList);
+      manageFilterList(filter);
     } else {
-      listDOM.classList.remove('filter__list-container--open');
-      listButton.classList.remove('filter--open');
-      listButton.setAttribute('aria-expanded', false);
+      // close selected filter
+      filter.list.classList.remove('filter__list-container--open');
+      filter.list.classList.add('filter__list-container--close');
+      filter.button.classList.remove('filter--open');
+      filter.button.setAttribute('aria-expanded', false);
     }
   };
 
   /**
-   * At open, all the datas of filter are display
-   * Reusable for filter with what user want (query on filterDatas)
-   * @param {html} listButton
-   * @param {html} listDOM
-   * @param {array} filterDatas
-   * @param {string} filterName
+   * At open, all the datas of filtered recipes are display
+   * @param {object} filter
    */
-  const manageFilterList = (listButton, listDOM, filterDatas, filterName) => {
-    const filterList = document.getElementById(`${filterName}-list-items`);
-    filterDatas.forEach((tag) => {
+  const manageFilterList = (filter) => {
+    const filterList = document.getElementById(`${filter.name}-list-items`);
+    filterList.innerHTML = '';
+    filter.datas.forEach((tag) => {
       const listElement = document.createElement('li');
       const filterButton = document.createElement('button');
       filterButton.setAttribute('role', 'option');
@@ -93,112 +137,108 @@ const manageFilters = () => {
       filterList.appendChild(listElement);
 
       filterButton.addEventListener('click', () => {
-        addTag(listButton, listDOM, tag);
+        addTag(filter, tag);
       });
     });
   };
 
   /**
-   * Manage input when user typing (display cross and recipes corresponded (only after 3 characters typing))
-   * @param {string} filterId
-   * @param {string} filterName
-   */
-  const manageFilterInput = (filterId, filterName) => {
-    const filterInput = document.getElementById(filterId);
-    const filterEmpty = document.getElementById(`empty-filter-${filterName}`);
-
-    // typing event
-    filterInput.addEventListener('input', (event) => {
-      let inputText = event.target.value;
-      // console.log(inputText);
-      filterEmpty.classList.add('empty-input-button--typing');
-      if (inputText.length === 0) {
-        filterEmpty.classList.remove('empty-input-button--typing');
-      }
-    });
-
-    // empty input on cross click
-    filterEmpty.addEventListener('click', () => {
-      filterInput.value = '';
-      filterEmpty.classList.remove('empty-input-button--typing');
-    });
-  };
-
-  /**
-   * Add tag selected by user
-   * @param {html} listButton
-   * @param {html} listDOM
+   * Add tag selected by user (avoid duplicate tags)
+   * @param {object} filter
    * @param {string} tagName
    */
-  const addTag = (listButton, listDOM, tagName) => {
+  const addTag = (filter, tagName) => {
     if (tagsContainer.className === 'tags') {
       tagsContainer.className = 'tags--activate';
     }
-    numberTags += 1;
-    const tag = document.createElement('li');
-    tag.className = 'flex-row';
-    tag.setAttribute('id', tagName.split(' ').join('') + '-selected');
-
-    const tagContent = document.createElement('span');
-    tagContent.textContent = tagName;
-
-    const tagCloseButton = document.createElement('button');
-    tagCloseButton.innerHTML = `<svg
-        xmlns='http://www.w3.org/2000/svg'
-        width='14'
-        height='13'
-        viewBox='0 0 14 13'
-        fill='none'
-      >
-        <path
-          d='M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5'
-          stroke='#1B1B1B'
-          stroke-width='2.16667'
-          stroke-linecap='round'
-          stroke-linejoin='round'
-        />
-      </svg>`;
-    tagCloseButton.addEventListener('click', () => {
-      removeTag(listButton, listDOM, tagName);
-    });
-
-    tag.appendChild(tagContent);
-    tag.appendChild(tagCloseButton);
-
-    tagsList.appendChild(tag);
-
-    toggleFilter(listButton, listDOM);
-    // TODO display corresponded recipes (import function with vue)
-    // TODO delete filter already selected into list
+    let duplicateTagsCount = 0;
+    if (tagsListElement.length > 0) {
+      for (let i = 0; i < tagsListElement.length; i++) {
+        if (tagsListElement[i].tagName === tagName) {
+          duplicateTagsCount++;
+        }
+      }
+    }
+    if (duplicateTagsCount === 0) {
+      numberTags += 1;
+      const filterName =
+        filter.name === 'appliances' ? 'appliance' : filter.name;
+      displayTag(tagName, tagsList, removeTag);
+      tagsListElement.push({
+        tagName: tagName,
+        filterName: filterName,
+      });
+      filteredRecipesByTag = filtersQueries(filteredRecipesByTag, tagName, [
+        filterName,
+      ]);
+      updateDatas(filteredRecipesByTag);
+    }
+    toggleFilter(filter);
   };
 
   /**
    * Remove tag when user click on tag cross
-   * @param {html} listButton
-   * @param {html} listDOM
+   * update filterRecipesByTag only with remaining tags
    * @param {string} tagName
    */
-  const removeTag = (listButton, listDOM, tagName) => {
+  const removeTag = (tagName) => {
     numberTags -= 1;
     const tagNameSelectedDOM = document.getElementById(
       `${tagName.split(' ').join('')}-selected`
     );
     tagNameSelectedDOM.remove();
+    tagsListElement = tagsListElement.filter(
+      (item) => item.tagName !== tagName
+    );
+    filteredRecipesByTag = filteredRecipes;
+    tagsListElement.forEach((tag) => {
+      filteredRecipesByTag = filtersQueries(filteredRecipesByTag, tag.tagName, [
+        tag.filterName,
+      ]);
+    });
+    updateDatas(filteredRecipesByTag);
     if (numberTags === 0) {
       tagsContainer.className = 'tags';
+      filteredRecipesByTag = filteredRecipes;
+      updateDatas(filteredRecipes);
     }
-    toggleFilter(listButton, listDOM);
   };
 
-  // execute on function call into index.js
-  manageFilterInput('hero-search', 'hero-search');
+  /**
+   * Remove all tags when user search recipe from principal search bar
+   */
+  const removeAllTags = () => {
+    if (tagsListElement.length > 0) {
+      tagsListElement.forEach((tag) => {
+        const tagNameSelectedDOM = document.getElementById(
+          `${tag.tagName.split(' ').join('')}-selected`
+        );
+        tagNameSelectedDOM.remove();
+      });
+      tagsContainer.className = 'tags';
+      // empty table
+      tagsListElement.splice(0, tagsListElement.length);
+      updateDatas(allRecipes);
+      filteredRecipesByTag = filteredRecipes;
+    }
+  };
 
+  // execute when call into index.js
   filters.forEach((filter) => {
-    manageFilterList(filter.button, filter.list, filter.datas, filter.name);
-    filter.button.addEventListener('click', () => {
-      toggleFilter(filter.button, filter.list);
-      manageFilterInput(`filter-search-${filter.name}`, filter.name);
+    filter.button.removeEventListener('click', () => {
+      toggleFilter(filter);
     });
+    filter.button.addEventListener('click', () => {
+      toggleFilter(filter);
+    });
+  });
+  // clear tags when user make a general search into hero search bar
+  const filterInput = document.getElementById('hero-search');
+  filterInput.addEventListener('input', (event) => {
+    let inputText = event.target.value;
+    if (inputText.length === 1) {
+      removeAllTags();
+    }
   });
 };
 

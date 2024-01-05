@@ -13,13 +13,13 @@ const displayRecipeCard = (recipe) => {
   // article container
   const article = document.createElement('article');
   article.className = 'recipe-card flex-col';
-  let src = `assets/photos/${recipe.image}`;
+  const src = `assets/photos/${recipe.image}`;
   const ingredientsList = recipe.ingredients
     .map(
       (ingredient) => `    <li class="flex-col">
     <span class="recipe-card__ingredient">${ingredient.ingredient}</span>
     <span class="recipe-card__ingredient-quantity">${
-      ingredient.unit ? ingredient.quantity : ''
+      ingredient.quantity ? ingredient.quantity : ''
     } ${ingredient.unit ? ingredient.unit : ''}</span>
 </li>`
     )
