@@ -19,7 +19,7 @@ Le site comporte deux zones de recherche :
 
 La priorité absolue est la **fluidité du moteur de recherche**. <br>
 
-Dans ce contexte j'ai implémenté deux algorithmes, pour la recherche principale, en vue de les comparer et sélectionner le plus performant. <br>
+Dans ce contexte j'ai implémenté deux algorithmes, pour la recherche principale, en vue de les comparer et de sélectionner le plus performant. <br>
 Le premier utilise les boucles natives while et for (voir la branche 'recipe-filters-v1'). <br>
 Le second s'appuie sur les Array method de JavaScript (voir la branche 'recipe-filters-v2')
 
@@ -33,7 +33,7 @@ Modèle MVC
 
 ### 📄 Documentation
 
-([Voir le benchmark des algorithmes](https://jsben.ch/eS8bA))
+([Voir le benchmark des algorithmes](https://jsben.ch/eS8bA)) <br>
 ([Voir le document d'investigation](assets/docs/Ganzin_Segolene_1_fiche_investigation_122023.pdf))
 
 ### 🏆 Compétences évaluées
