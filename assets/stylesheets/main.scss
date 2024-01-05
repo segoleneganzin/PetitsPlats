@@ -10,11 +10,11 @@
 @import 'base/base', 'base/typography', 'base/helpers';
 
 // 4. Layout-related sections
-@import 'layout/header', 'layout/filters', 'layout/recipes';
+@import 'layout/header', 'layout/filters', 'layout/recipes', 'layout/tags';
 
 // 5. Components
 @import 'components/button', 'components/form', 'components/filter',
-  'components/recipeCard';
+  'components/recipeCard', 'components/tag';
 
 // 6. Page-specific styles
 

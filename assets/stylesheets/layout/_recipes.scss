@@ -4,6 +4,10 @@
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 48px;
   grid-template-rows: 731px;
+  &--not-found {
+    margin: 25px auto;
+    width: fit-content;
+  }
 }
 @media screen and (max-width: 1240px) {
   .recipes {

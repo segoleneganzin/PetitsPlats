@@ -1,23 +1,11 @@
 /***************************** FILTERS *****************************/
 .filters {
   justify-content: space-between;
-  // margin-bottom: 55px;
   &__container {
     gap: 64px;
   }
   &__total-recipes {
     align-self: center;
-  }
-}
-.tags {
-  // TODO animation
-  height: 55px;
-  &--activate {
-    height: auto;
-    padding: 21px 0 43px;
-  }
-  &__list {
-    gap: 15px;
   }
 }
 
