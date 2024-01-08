@@ -50,6 +50,8 @@ const manageFilters = (allRecipes, filteredRecipes) => {
       datas: filterUstensilsDatas,
     },
   ];
+  const allListButtons = document.querySelectorAll('.filter__button');
+  const allListDOM = document.querySelectorAll('.filter__list-container');
   // tags (selected filters)
   const tagsContainer = document.getElementById('tags');
   const tagsList = document.querySelector('.tags__list');
@@ -91,19 +93,9 @@ const manageFilters = (allRecipes, filteredRecipes) => {
    * @param {object} filter
    */
   const toggleFilter = (filter) => {
-    const allListButtons = document.querySelectorAll('.filter__button');
-    const allListDOM = document.querySelectorAll('.filter__list-container');
     const ariaExpandedAttribute = filter.button.getAttribute('aria-expanded');
     if (ariaExpandedAttribute === 'false') {
-      // close all filters
-      allListButtons.forEach((button) => {
-        button.classList.remove('filter--open');
-        button.setAttribute('aria-expanded', false);
-      });
-      allListDOM.forEach((list) => {
-        list.classList.remove('filter__list-container--open');
-        list.classList.remove('filter__list-container--close');
-      });
+      closeAllFilters(allListButtons, allListDOM);
       // open selected filter
       filter.list.classList.add('filter__list-container--open');
       filter.button.classList.add('filter--open');
@@ -225,20 +217,35 @@ const manageFilters = (allRecipes, filteredRecipes) => {
 
   // execute when call into index.js
   filters.forEach((filter) => {
-    filter.button.removeEventListener('click', () => {
-      toggleFilter(filter);
-    });
     filter.button.addEventListener('click', () => {
       toggleFilter(filter);
     });
   });
   // clear tags when user make a general search into hero search bar
   const filterInput = document.getElementById('hero-search');
+  const filterEmpty = document.getElementById(`empty-filter-hero-search`);
   filterInput.addEventListener('input', (event) => {
     let inputText = event.target.value;
     if (inputText.length === 1) {
+      closeAllFilters(allListButtons, allListDOM);
       removeAllTags();
     }
+  });
+  // empty tag on search input cross click
+  filterEmpty.addEventListener('click', () => {
+    closeAllFilters(allListButtons, allListDOM);
+    removeAllTags();
+  });
+};
+
+const closeAllFilters = (filtersButtons, filtersListDOM) => {
+  filtersButtons.forEach((button) => {
+    button.classList.remove('filter--open');
+    button.setAttribute('aria-expanded', false);
+  });
+  filtersListDOM.forEach((list) => {
+    list.classList.remove('filter__list-container--open');
+    list.classList.remove('filter__list-container--close');
   });
 };
 
