@@ -226,7 +226,7 @@ const manageFilters = (allRecipes, filteredRecipes) => {
   const filterEmpty = document.getElementById(`empty-filter-hero-search`);
   filterInput.addEventListener('input', (event) => {
     let inputText = event.target.value;
-    if (inputText.length === 1) {
+    if (inputText.length >= 1) {
       closeAllFilters(allListButtons, allListDOM);
       removeAllTags();
     }
