@@ -12,7 +12,6 @@ const filtersQueries = (recipes, filterValue, filterBy) => {
   const filterValueLowerCase = filterValue.toLowerCase();
   const filteredRecipes = [];
   for (let i = 0; i < recipes.length; i++) {
-    //
     let j = 0;
     while (j < filterBy.length) {
       // manage array into recipe
